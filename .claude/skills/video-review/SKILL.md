@@ -21,6 +21,7 @@ Use `vid review` to prepare review.json. Cover:
 - captions: corrected Portuguese, dimensions/units, mobile readability and no collision with face/hands/graphics;
 - visuals: helpful explanation, faithful reference use, readable transitions, HDR-to-SDR appearance and preserved crop detail;
 - audio: voice intelligibility, suitable level, fades and music balance; process only demonstrated problems;
+- speech cleanup, when used: follow [audio review](../../../docs/AUDIO.md), compare level-matched original/treated voice, check sample alignment and final encoding, and distinguish human listening preference from ASR/DNSMOS estimates; ensure only the selected voice track is audible;
 - references: displayed assets/claims match their sources, illustrative imagery is not presented as project evidence.
 - strategy (when strategy.json exists): identify the delivered payoff in the render, compare it with the opening promise, check visibility of evidence, audience relevance and CTA fit. Check that effects clarify or carry meaning. Record concrete observations rather than predicting virality; a changed strategy needs a fresh review even if the video file is identical.
 

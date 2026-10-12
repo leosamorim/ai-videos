@@ -112,6 +112,8 @@ Todo tempo de entrada se refere ao primeiro quadro do vídeo original. A extraç
 
 Depois da seleção, seguir [CUTTING.md](CUTTING.md) para refinar fala, ação, pausas e ruídos. `cut` gera um roteiro por borda em `02-cut/CUT-REVIEW.md`, que o agente completa após inspecionar. `frames --cuts` usa índices exatos da EDL; `--context` expande a inspeção sem alterar o corte e `--boundary` permite trabalho localizado. A revisão final registra essas observações em `checks.seams.notes` do render exato. Não há novo schema nem classificação automática de expressões.
 
+Quando a fala precisar de limpeza, seguir [AUDIO.md](AUDIO.md): DeepFilterNet3 é a preferência inicial, com preservação do relógio e comparação auditiva. É um pré-processamento opcional do agente, sem comando `vid denoise`. A voz tratada entra como asset/faixa separada na composição; não sobrescrever master/proxy nem contornar seus hashes. Música/SFX são misturados depois, e o render resultante requer revisão atualizada.
+
 ## Referências e tema
 
 Consulta autônoma, fontes por finalidade, memória de preferências e acessos disponíveis: [library/SOURCES.md](../library/SOURCES.md). `library/sources.json` é o catálogo versionável; `library/references/*.json` e `.cache/reference-discovery/` ficam privados por padrão. Descoberta e memória não invalidam projetos; importar uma referência selecionada segue a invalidação normal. Uma falha de API fica explícita, com eventual cache antigo identificado.

@@ -13,6 +13,10 @@ description: >
   `/hyperframes-core`.
 ---
 
+<!-- REPO_SPEECH_CLEANUP_V1 -->
+> Para limpar fala gravada neste repo, consulte [docs/AUDIO.md](../../../docs/AUDIO.md): DeepFilterNet3 é a preferência inicial quando há ruído, com tratamento moderado, relógio preservado e A/B em volume equivalente. Limpe a voz antes de música/SFX, use um asset de áudio separado sem sobrescrever master/proxy e registre escuta versus métricas. É pré-processamento opcional; não existe comando `vid denoise` nem nova aprovação obrigatória.
+
+
 <!-- REPO_DOMAIN_V2 -->
 > Neste repo, `video-edit` coordena o fluxo e `AGENTS.md` define os contratos. Esta skill fornece capacidade técnica. Consuma o corte, a transcrição, o tema e o storyboard existentes; não reinicie briefing/transcrição, não instale/atualize skills globais e não imponha aprovações extras. Use `node scripts/hf.mjs` para o CLI fixado.
 

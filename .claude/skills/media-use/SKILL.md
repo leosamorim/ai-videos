@@ -3,6 +3,10 @@ name: media-use
 description: Agent Media OS for a HyperFrames project. Resolve BGM, SFX, image, icon, brand logo, voice, color grade, or LUT into a frozen local file or paste-ready block + ledger record (one verb, `resolve`); generate via TTS / music / image models when the catalog misses; produce voiceover, transcription, captions, and background removal through one shared audio engine; operate on media (cut / reframe / transform); and reuse assets across projects. Also use for vague feedback that real footage looks dark, flat, boring, should feel retro/camcorder/print/ASCII, needs privacy, or needs a media reveal. When the host app provides its own music or sound-effect tools, use those for music and sound effects; `resolve --type bgm|sfx` needs the heygen CLI. When `HEYGEN_API_BASE` is set, HeyGen calls go through that host with no CLI sign-in.
 ---
 
+<!-- REPO_SPEECH_CLEANUP_V1 -->
+> Para limpar fala gravada neste repo, consulte [docs/AUDIO.md](../../../docs/AUDIO.md): DeepFilterNet3 é a preferência inicial quando há ruído, com tratamento moderado, relógio preservado e A/B em volume equivalente. Limpe a voz antes de música/SFX, use um asset de áudio separado sem sobrescrever master/proxy e registre escuta versus métricas. É pré-processamento opcional; não existe comando `vid denoise` nem nova aprovação obrigatória.
+
+
 <!-- REPO_DOMAIN_V2 -->
 > Neste repo, `video-edit` coordena o fluxo e `AGENTS.md` define os contratos. Esta skill fornece capacidade técnica. Consuma o corte, a transcrição, o tema e o storyboard existentes; não reinicie briefing/transcrição, não instale/atualize skills globais e não imponha aprovações extras. Use `node scripts/hf.mjs` para o CLI fixado.
 

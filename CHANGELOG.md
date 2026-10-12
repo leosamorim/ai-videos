@@ -2,6 +2,7 @@
 
 ## Não publicado
 
+- DeepFilterNet3 como primeira opção de limpeza de fala quando necessária, respaldada por preferência de escuta do mantenedor; guia de tratamento moderado, compensação de atraso, integração por faixa separada e revisão A/B, sem incluir gravações ou instalar modelos automaticamente.
 - Direção geral de acabamento dos cortes: preservar fala e ação úteis, distinguir reset de expressão intencional e classificar pausas/ruídos pelo contexto, com evidências por borda.
 - `frames --cuts` inclui abertura e encerramento e usa índices exatos; `--context` extrai sequências consecutivas e `--boundary` limita a inspeção. `cut` gera roteiro de revisão por borda, sem novo schema ou aprovação automática.
 - Orientação curta no primeiro fluxo de vídeo, com objetivos, referências, exemplos de modelos e um exemplo de pedido; integrada às instruções de Claude Code e Codex.

@@ -26,5 +26,9 @@ export function applyRepositoryPolicy(dir, name) {
     text = text.slice(0, end) + '\n\n<!-- REPO_DOMAIN_V2 -->\n> Neste repo, `video-edit` coordena o fluxo e `AGENTS.md` define os contratos. Esta skill fornece capacidade técnica. Consuma o corte, a transcrição, o tema e o storyboard existentes; não reinicie briefing/transcrição, não instale/atualize skills globais e não imponha aprovações extras. Use `node scripts/hf.mjs` para o CLI fixado.\n' + text.slice(end);
   }
   text = text.replaceAll('--model small.en', '--language pt');
+  if (['hyperframes-audio', 'media-use'].includes(name) && !text.includes('REPO_SPEECH_CLEANUP_V1')) {
+    const end = text.indexOf('\n---', 3) + 4;
+    text = text.slice(0, end) + '\n\n<!-- REPO_SPEECH_CLEANUP_V1 -->\n> Para limpar fala gravada neste repo, consulte [docs/AUDIO.md](../../../docs/AUDIO.md): DeepFilterNet3 é a preferência inicial quando há ruído, com tratamento moderado, relógio preservado e A/B em volume equivalente. Limpe a voz antes de música/SFX, use um asset de áudio separado sem sobrescrever master/proxy e registre escuta versus métricas. É pré-processamento opcional; não existe comando `vid denoise` nem nova aprovação obrigatória.\n' + text.slice(end);
+  }
   writeFileSync(path, text);
 }
