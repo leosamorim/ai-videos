@@ -13,6 +13,8 @@ When `strategy.json` exists, read its audience, promise, payoff and evidence bef
 
 Read all speech and examine all overview sheets. Then use `vid inspect <slug> --from S --to E` for each suspected non-performance interval and around proposed seams. Open its dense frame sequence; use continuous playback/audio if supported. Record whether observations came from playback or sampled imagery. Do not infer prosody from a waveform or stills.
 
+Use [cut finishing](../../../docs/CUTTING.md) when refining take boundaries. Separate the end of useful speech, useful action and the onset of a recording reset. Evaluate expressions in temporal context: neither a downward glance nor an isolated articulation frame justifies removal. Preserve the participant's expressive style; neutral faces and constant eye contact are not quality targets. Classify pauses and noise by function, protect word attacks/endings and review the assembled opening, seams and ending before graphics. Record the evidence, decision and method/limits per boundary in the cut review; the guide provides commands and remedies when audio and visual needs differ.
+
 Assess the combination of cues:
 
 - Preparation: adjusting recording equipment/clothing/hair followed by a clear start, testing mic, speaking to crew, reaching to start/stop recording. A relevant demonstration can look similar; context decides.

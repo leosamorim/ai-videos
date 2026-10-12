@@ -2,7 +2,7 @@
 import { existsSync, renameSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { buildCutFilter, buildEdl, buildPostChain, DEFAULTS, mergeDeletes, mergeSilences, proposeSilenceCuts, resolveCut, retimeWords, tightenWords } from '../lib/cuts.mjs';
-import { contactSheets, cutBoundaryShots } from '../lib/frames.mjs';
+import { contactSheets, cutBoundaries, cutBoundaryShots } from '../lib/frames.mjs';
 import { detectSilences, filterFileArgs, measureLoudness, probe } from '../lib/media.mjs';
 import { finishStage, loadProject, rel, saveProject, setStage } from '../lib/project.mjs';
 import { evidenceFileErrors, sourceSignature, validateEditPlan } from '../lib/editorial.mjs';
@@ -145,6 +145,13 @@ export function cut(args) {
     ...(plan?.discarded ?? []).map((s) => `- Removido ${s.start}–${s.end}: ${s.reason}`), '',
     '## Fala resultante', words.map((w) => w.text).join(' '), '',
     'Reproduza as emendas e confira sentido, respiração, gestos, início/fim da atuação. A revisão dos quadros não comprova naturalidade sonora.',
+    '', '## Acabamento das bordas', '',
+    'Siga docs/CUTTING.md. Os tempos abaixo são da saída, não do bruto. Complete cada linha após abrir as evidências; gerar folhas não constitui revisão.', '',
+    '| Borda | Tempo de saída | Evidência / método e limites | Observação visual / sonora | Decisão e motivo |',
+    '| --- | --- | --- | --- | --- |',
+    ...cutBoundaries(edl).map((b) => `| ${b.id} | ${b.time.toFixed(4)} s | pendente | pendente | pendente |`), '',
+    `Sequências: node scripts/vid.mjs frames ${project.slug} --clean --cuts --context 0.5`,
+    'Para limitar a inspeção, acrescente --boundary start, --boundary c01 ou --boundary end. O contexto é uma janela de revisão, não uma margem automática de corte.',
   ].join('\n'));
   const master = join(paths.cut, 'master.mp4');
   const pending = join(paths.cut, 'master.pending.mp4');
@@ -173,7 +180,7 @@ export function cut(args) {
     run('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-i', master, '-vf', `scale=${w}:${h}`, '-c:v', 'libx264', '-preset', 'fast', '-crf', '22', '-g', String(Math.round(fps)), '-c:a', 'copy', '-movflags', '+faststart', clean]);
     writeCache('cut-media', mediaInput, { files: { 'master.mp4': master, 'proxy.mp4': clean }, replace: Boolean(flags.force) });
   }
-  if (edl.keep.length > 1) contactSheets(clean, cutBoundaryShots(edl), join(paths.review, 'cut-boundaries'), { columns: 6, rows: 3, name: 'cuts' });
+  contactSheets(clean, cutBoundaryShots(edl), join(paths.review, 'cut-boundaries'), { columns: 6, rows: 3, name: 'cuts' });
   data.cut = { edited_duration: edl.edited_duration, segments: edl.keep.length, master: '02-cut/master.mp4', proxy: '02-cut/clean.mp4', source_size: [source.video.width, source.video.height] };
   saveProject(project);
   finishStage(project, 'cut', 'master em resolução original + proxy; revisar emendas');

@@ -30,7 +30,7 @@ const COMMANDS = {
   check: ['compose', 'Roda lint + validação + inspeção de layout do HyperFrames'],
   snapshot: ['compose', 'Captura quadros da composição atual, sem renderizar: --at 1.5,3,7.2'],
   render: ['compose', 'Renderiza um draft numerado em 05-renders/'],
-  frames: ['review', 'Extrai folhas de contato; --seq INICIO-FIM dá quadros consecutivos para conferir movimento'],
+  frames: ['review', 'Folhas de contato; --cuts --context 0.5 [--boundary c01] ou --seq INICIO-FIM para quadros consecutivos'],
   loudness: ['review', 'Mede LUFS e true peak de um arquivo'],
   verify: ['review', 'Checa um render: formato, duração, tela preta, congelamento, áudio'],
   finalize: ['review', 'Normaliza o áudio do draft aprovado e grava final.mp4'],

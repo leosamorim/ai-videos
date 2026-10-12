@@ -2,7 +2,7 @@
 import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, isAbsolute, join, resolve } from 'node:path';
-import { contactSheets, cutBoundaryShots, cardShots, sequenceShots } from '../lib/frames.mjs';
+import { contactSheets, cutBoundaries, cutBoundaryShots, cardShots, sequenceShots } from '../lib/frames.mjs';
 import { compileStoryboard } from '../lib/storyboard.mjs';
 import { detectSilences, detectVideoDefects, measureLoudness, probe } from '../lib/media.mjs';
 import { finishStage, loadProject, rel, saveProject, setStage } from '../lib/project.mjs';
@@ -27,6 +27,9 @@ function pickVideo(project, flags) {
 
 export function frames(args) {
   const { flags, positional } = parseArgs(args, { booleans: ['cuts', 'cards', 'clean', 'big'] });
+  if ((flags.context !== undefined || flags.boundary !== undefined) && !flags.cuts) fail('--context e --boundary exigem --cuts');
+  if (flags.cuts && (flags.diff || flags.seq || flags.cards || flags.at)) fail('use --cuts separado de --diff, --seq, --cards e --at');
+  if (flags.cuts && flags.step !== undefined) fail('--cuts --context usa quadros consecutivos; --step pertence a --seq');
   const project = loadProject(positional[0]);
   const video = pickVideo(project, flags);
   const info = probe(video);
@@ -46,7 +49,15 @@ export function frames(args) {
     if (!shots.length) return console.log('Nenhum quadro alterado; confira o áudio e as exigências semânticas no diff.');
   } else if (flags.cuts) {
     name = 'cut-boundaries';
-    shots = cutBoundaryShots(readJson(join(project.paths.cut, 'edl.json')));
+    const edl = readJson(join(project.paths.cut, 'edl.json'));
+    try {
+      const boundaries = cutBoundaries(edl);
+      shots = cutBoundaryShots(edl, { context: numberFlag(flags, 'context', 0), boundary: flags.boundary ?? null });
+      // Some containers omit nb_frames. Count decoded frames only in that case;
+      // container duration can include an audio tail and is not an exact frame count.
+      const totalFrames = info.video.frames ?? Number(run('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-count_frames', '-show_entries', 'stream=nb_read_frames', '-of', 'default=noprint_wrappers=1:nokey=1', video]).stdout.trim());
+      if (info.video.variable_frame_rate || Math.abs(info.video.fps - edl.fps) > 0.00051 || totalFrames !== boundaries.at(-1).frame) fail('vídeo e EDL têm relógios diferentes; selecione o corte/render correspondente');
+    } catch (error) { fail(error.message); }
   } else if (flags.cards) {
     // Três momentos por card: entrada, quadro-herói (meio) e saída.
     name = 'cards';
@@ -86,6 +97,7 @@ export function frames(args) {
   console.log(`${shots.length} quadros de ${rel(video)}:`);
   for (const sheet of sheets) console.log(`  ${rel(sheet)}`);
   console.log('Abra cada folha com a ferramenta de leitura de imagem e descreva o que vê antes de concluir qualquer coisa.');
+  if (flags.cuts && numberFlag(flags, 'context', 0) === 0) console.log('Resumo estático: use --cuts --context 0.5 (opcional --boundary c01) para conferir a evolução das bordas, incluindo start/end.');
 }
 
 export function loudness(args) {

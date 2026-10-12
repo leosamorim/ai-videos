@@ -11,11 +11,13 @@ Run `vid verify <slug>` for technical checks and `--speech` for optional local r
 
 Run `vid frames --cuts`, `--cards` or `--at` as appropriate, open outputs, and inspect motion around problems. For every animated element (draw-ons, transitions, moving inserts) also run `vid frames --seq START-END`, with `--crop` for small details: consecutive frames show whether the animation progresses, which spaced samples cannot. `vid snapshot` shows composition layout before a render, never motion. Listen or use the available audio/video review capability; ASR and loudness numbers do not establish pleasant sound or natural delivery. Record method and limits honestly.
 
+Review the opening, every seam and ending according to [cut finishing](../../../docs/CUTTING.md). `frames --cuts` is a static locator; without playback, use `--cuts --context 0.5` on the exact render for consecutive frames (optionally `--boundary start|c01|end` to limit a call). Increase context when needed; it is not automatic cut padding. Record each boundary's evidence, visual/audio observation, decision and limitations in `checks.seams.notes` or a linked local report tied to that render hash. Preserve meaningful gaze, expression, silence and breath; remove demonstrated recording leftovers without clipping useful speech or action. Frame-only review cannot certify the sound.
+
 Use `vid review` to prepare review.json. Cover:
 
 - meaning: the intended explanation remains truthful, complete and coherent;
 - performance: preparation/false starts/unintended post-roll are removed with evidence; useful gestures and reactions remain;
-- seams: no clipped syllables, abrupt unnatural breaths or accidental gesture jumps;
+- seams: per-boundary findings for opening, internal seams and ending; no clipped syllables, accidental action truncation or unexplained recording resets, with listening limitations stated;
 - captions: corrected Portuguese, dimensions/units, mobile readability and no collision with face/hands/graphics;
 - visuals: helpful explanation, faithful reference use, readable transitions, HDR-to-SDR appearance and preserved crop detail;
 - audio: voice intelligibility, suitable level, fades and music balance; process only demonstrated problems;

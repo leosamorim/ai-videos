@@ -12,6 +12,8 @@
 
 Intenção de atuação, melhor take, verdade e completude da explicação, qualidade da entrega, naturalidade das emendas, leitura no celular, utilidade dos gráficos e adequação às referências. O agente registra o que viu e a pessoa pode revisar. Números de áudio não demonstram prosódia; quadros estáticos não demonstram movimento fluido; ASR pode errar palavras.
 
+O [acabamento de cortes](CUTTING.md) exige observações por borda, incluindo abertura e encerramento: fala/gesto completos, pausas funcionais preservadas e sobras de gravação retiradas com evidência. Desvios de olhar e expressões são avaliados no contexto da ação. `frames --cuts --context 0.5` fornece sequência consecutiva; a versão sem contexto é apenas um localizador. A geração dessas imagens não comprova inspeção nem qualidade sonora.
+
 Sem reprodução contínua, todo elemento animado é conferido em quadros consecutivos do render exato (`vid frames --seq`), com recorte quando o detalhe é pequeno. Folhas com quadros espaçados mostram o começo e o fim de uma animação e escondem o meio: um traço que deveria se desenhar e surgia inteiro de uma vez passou por duas entregas assim. Quadros consecutivos mostram se a animação progride, não se o ritmo agrada. Na comparação da fala, confrontar as diferenças com as do render anterior separa o que é hábito do reconhecedor do que um som novo passou a encobrir.
 
 Em conteúdo orgânico, também exigem julgamento: relevância para a audiência, entrega honesta da promessa, qualidade da evidência e coerência da ação desejada. Validação estrutural não comprova persuasão nem prevê alcance. Dados de publicação orientam hipóteses conforme [MARKETING.md](MARKETING.md), sem confundir retenção com resultado de negócio.

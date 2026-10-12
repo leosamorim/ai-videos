@@ -53,6 +53,7 @@ Para revisões, `vid resume` evita recarregar todo o histórico. `compose --medi
 | Economia de contexto e processamento | [Eficiência](docs/EFFICIENCY.md) |
 | Organização e contratos | [Arquitetura](docs/ARCHITECTURE.md) |
 | Direção editorial e marketing | [Craft](docs/CRAFT.md), [marketing](docs/MARKETING.md) |
+| Bordas de takes, pausas e ruídos | [Acabamento de cortes](docs/CUTTING.md) |
 | Fontes de consulta autônoma | [Biblioteca](library/SOURCES.md) |
 | Composição e movimentos | [Técnicas](docs/COMPOSITION.md), [componentes](docs/COMPONENTS.md) |
 | Estilos locais | [Marcas](docs/BRANDS.md) |

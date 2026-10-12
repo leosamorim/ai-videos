@@ -2,6 +2,8 @@
 
 ## Não publicado
 
+- Direção geral de acabamento dos cortes: preservar fala e ação úteis, distinguir reset de expressão intencional e classificar pausas/ruídos pelo contexto, com evidências por borda.
+- `frames --cuts` inclui abertura e encerramento e usa índices exatos; `--context` extrai sequências consecutivas e `--boundary` limita a inspeção. `cut` gera roteiro de revisão por borda, sem novo schema ou aprovação automática.
 - Orientação curta no primeiro fluxo de vídeo, com objetivos, referências, exemplos de modelos e um exemplo de pedido; integrada às instruções de Claude Code e Codex.
 - `vid welcome` detecta projetos sem modificar estado; registro local evita repetição e `--preview` permite reler. Nenhum dado de primeiro uso entra na distribuição pública.
 

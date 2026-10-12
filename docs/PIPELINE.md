@@ -56,6 +56,7 @@ Rode a partir da raiz. `npm run vid -- ...` equivale a `node scripts/vid.mjs ...
 | `snapshot SLUG --at 1.5,3,7.2` | Quadros da composição atual sem renderizar, em `06-review/snapshots/`; serve para posição e legibilidade, não para movimento |
 | `render SLUG --quality draft\|looks` | Render numerado, apenas após check da composição atual |
 | `frames SLUG --cuts\|--cards\|--at 1,2,3` | Inspeção; `--clean` usa proxy e `--file PATH` seleciona arquivo |
+| `frames SLUG --cuts --context 0.5` | Quadros consecutivos por borda, incluindo abertura e encerramento; `--boundary start\|c01\|end` limita a uma borda. Sem contexto, `--cuts` é só resumo estático |
 | `frames SLUG --seq INICIO-FIM` | Quadros consecutivos do intervalo em lote (até 2000; mantenha `--step 1` para movimento); `--crop x,y,l,a` amplia uma região em qualquer modo |
 | `verify SLUG --speech` | Formato/cadência/duração/áudio/defeitos; comparação ASR opcional |
 | `review SLUG` | Cria review.json para o render atual |
@@ -108,6 +109,8 @@ A mensagem vem de `templates/WELCOME.md`. O agente a apresenta brevemente na con
 `segments` fica na ordem desejada de saída, permitindo trazer uma fala posterior para a abertura. `discarded` e keeps cobrem o bruto inteiro; não podem se contradizer. Proteções usam `{start,end,reason}`. Descartes de `setup`, `off-performance`, `retake` ou `post-roll` exigem clip de detalhe cobrindo o intervalo. Não use categorias genéricas para contornar a revisão. Bordas que cortam palavras são rejeitadas; corrija alinhamento a partir do áudio quando necessário.
 
 Todo tempo de entrada se refere ao primeiro quadro do vídeo original. A extração insere/remove a diferença de início do áudio antes do ASR. EDL usa limites de quadro inteiros com fim exclusivo; os cortes de áudio usam amostras equivalentes. `source_i` e `segment_id` preservam a origem de cada palavra após reordenação.
+
+Depois da seleção, seguir [CUTTING.md](CUTTING.md) para refinar fala, ação, pausas e ruídos. `cut` gera um roteiro por borda em `02-cut/CUT-REVIEW.md`, que o agente completa após inspecionar. `frames --cuts` usa índices exatos da EDL; `--context` expande a inspeção sem alterar o corte e `--boundary` permite trabalho localizado. A revisão final registra essas observações em `checks.seams.notes` do render exato. Não há novo schema nem classificação automática de expressões.
 
 ## Referências e tema
 

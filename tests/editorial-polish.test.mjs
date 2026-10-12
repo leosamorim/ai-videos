@@ -2,7 +2,46 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { chunkWords, renderCaptions, auditCaptions } from '../scripts/lib/captions.mjs';
 import { compileStoryboard } from '../scripts/lib/storyboard.mjs';
-import { cardShots } from '../scripts/lib/frames.mjs';
+import { cardShots, cutBoundaries, cutBoundaryShots } from '../scripts/lib/frames.mjs';
+import { buildEdl } from '../scripts/lib/cuts.mjs';
+
+test('cut inspection uses output frame boundaries even when source takes are reordered', () => {
+  const edl = buildEdl({ duration: 5, fps: 30, selections: [{ id: 'later', start: 3, end: 4 }, { id: 'earlier', start: 1, end: 3 }] });
+  assert.deepEqual(cutBoundaries(edl), [{ id: 'start', frame: 0, time: 0 }, { id: 'c01', frame: 30, time: 1 }, { id: 'end', frame: 90, time: 3 }]);
+  assert.deepEqual(cutBoundaryShots(edl).map((s) => s.frame), [0, 29, 30, 89]);
+  const context = cutBoundaryShots(edl, { context: 0.5, boundary: 'c01' });
+  assert.deepEqual(context.map((s) => s.frame), Array.from({ length: 30 }, (_, i) => i + 15));
+  assert.ok(context.every((s) => s.time === s.frame / 30));
+});
+
+test('edge windows clamp to actual frames and include single-take opening and ending', () => {
+  const edl = buildEdl({ duration: 0.2, fps: 30 });
+  assert.deepEqual(cutBoundaryShots(edl).map((s) => s.frame), [0, 5]);
+  for (const boundary of ['start', 'end']) {
+    assert.deepEqual(cutBoundaryShots(edl, { context: 0.5, boundary }).map((s) => s.frame), [0, 1, 2, 3, 4, 5]);
+  }
+  assert.throws(() => cutBoundaryShots(edl, { boundary: 'c01' }), /borda desconhecida/);
+});
+
+test('fractional frame rates and sub-frame context keep exact consecutive indices', () => {
+  const fps = 30000 / 1001;
+  const edl = buildEdl({ duration: 10, fps, selections: [{ start: 2, end: 3.07 }, { start: 6, end: 7 }] });
+  const boundary = cutBoundaries(edl)[1];
+  assert.equal(boundary.frame, edl.keep[0].end_frame - edl.keep[0].start_frame);
+  const shots = cutBoundaryShots(edl, { context: 0.001, boundary: 'c01' });
+  assert.deepEqual(shots.map((s) => s.frame), [boundary.frame - 1, boundary.frame]);
+});
+
+test('boundary inspection refuses invalid EDL clocks/options and limits work before allocation', () => {
+  const edl = buildEdl({ duration: 100, fps: 30 });
+  for (const context of [-1, Infinity, NaN]) assert.throws(() => cutBoundaryShots(edl, { context }), /context/);
+  assert.throws(() => cutBoundaryShots(edl, { context: 100 }), /boundary/);
+  assert.equal(cutBoundaryShots(edl, { context: 0.5, boundary: 'end' }).length, 15);
+  assert.throws(() => cutBoundaries({ ...edl, fps: 0 }), /fps/);
+  assert.throws(() => cutBoundaries({ ...edl, keep: [] }), /trechos/);
+  assert.throws(() => cutBoundaries({ ...edl, keep: [{ ...edl.keep[0], end_frame: 1.5 }] }), /limites/);
+  assert.throws(() => cutBoundaries({ ...edl, keep: [{ ...edl.keep[0], out_start: 1 }] }), /relógio/);
+});
 
 const words = ['um', 'armário', 'para', 'sua', 'casa'].map((text, i) => ({ text, source_i: 30 + i, segment_id: 'take', start: i * 0.3, end: (i + 1) * 0.3 }));
 test('a spoken list need not flash one caption per comma', () => {

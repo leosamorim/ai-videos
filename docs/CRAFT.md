@@ -2,6 +2,8 @@
 
 Para fala explicativa, começar pela pessoa e pelo objeto explicado. A edição deve acrescentar informação, organizar atenção ou resolver uma emenda. Uma pausa útil, um gesto e uma mudança de expressão podem comunicar mais que outro título.
 
+Antes dos gráficos, aplicar o [acabamento de cortes](CUTTING.md): revisar entradas e saídas de fala/ação, classificar pausas e ruídos, conferir abertura, emendas e encerramento com contexto temporal. A intenção da sequência orienta o corte; uma expressão isolada ou um desvio de olhar não estabelece um erro.
+
 Antes de desenhar um card, escrever qual informação visual ele acrescenta à fala e à legenda. Se apenas repetir ambas, experimentar removê-lo no animatic. Deixar trechos de fala sem novos elementos para recuperar o rosto e os gestos. A quantidade depende do material, sem cota obrigatória de cortes, zooms, efeitos ou palavras destacadas.
 
 Usar as fotos do usuário para mostrar o objeto real. Uma linha pode localizar uma porta; uma cota numérica sobre ela afirma uma medida daquele objeto. Só desenhar a cota se houver evidência dessa medida. Não transformar uma opinião da fala em garantia técnica no gráfico. Preservar condicionais como “se possível”. Uma imagem de apoio pode substituir a tela inteira, evitando cobrir parte do rosto com um card.

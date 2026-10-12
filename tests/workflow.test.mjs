@@ -59,6 +59,13 @@ test('CLI flow joins evidence, references, selections, anchored graphics and sta
     assert.equal(existsSync(join(dir, '02-cut/master.mp4')), false);
     cli('cut', slug);
     assert.equal(read('02-cut/edl.json').edited_duration, 2.4);
+    assert.deepEqual(read('06-review/cut-boundaries/manifest.json').frame_indices, [0, 71]);
+    cli('frames', slug, '--clean', '--cuts', '--context', '0.1', '--boundary', 'end', '--name', 'ending-test');
+    assert.deepEqual(read('06-review/ending-test/manifest.json').frame_indices, [69, 70, 71]);
+    assert.throws(() => cli('frames', slug, '--cuts', '--context', '-1'), /context/);
+    assert.throws(() => cli('frames', slug, '--boundary', 'end'), /exigem --cuts/);
+    assert.throws(() => cli('frames', slug, '--cuts', '--seq', '0-1'), /separado/);
+    assert.throws(() => cli('frames', slug, '--cuts', '--file', source), /relógios diferentes/);
     const originalMaster = fileHash(join(dir, '02-cut/master.mp4'));
     const originalSheet = evidence.items.find((e) => e.type === 'contact-sheet').sha256;
     const corrected = read('01-transcript/transcript.raw.json'); corrected.words[0].text = 'Móvel';

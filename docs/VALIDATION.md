@@ -21,3 +21,11 @@ Os testes usam observações sintéticas para exercitar os contratos de revisão
 ## Adição da orientação de primeiro uso
 
 Verificada em 2026-10-12 com `npm run validate`: 52 testes aprovados, 51 arquivos JavaScript com sintaxe válida e 20 skills sincronizadas. `video-edit` também passou no validador de estrutura. Os novos testes exercitam um workspace vazio sem dependências instaladas, projetos existentes e vinculados, consulta sem gravação, registro explícito sem repetição, releitura e registro inválido. O teste de distribuição confirma que `.local/welcome.json` fica fora da cópia pública. Os testes de mídia continuam passando; esta alteração não muda composição ou render e não exigiu novo render HyperFrames.
+
+## Acabamento de cortes e inspeção das bordas
+
+Verificado em 2026-10-12 com `npm run validate`: 56 testes aprovados, 51 arquivos JavaScript válidos, 20 skills sincronizadas e auditoria pública de 649 arquivos sem problemas. As três skills editoriais alteradas passaram no validador de estrutura.
+
+Os testes cobrem abertura/encerramento de um take único, trechos reordenados, fps fracionário, contexto limitado aos quadros existentes, argumentos inválidos e EDL incompatível com o vídeo. A integração FFmpeg compara pixels extraídos com os quadros reais antes/depois de uma emenda, incluindo o primeiro quadro do novo trecho. A integração CLI confere o manifesto de índices e a inspeção localizada do encerramento.
+
+`npm run test:render` também passou: proxy/draft, master/looks, verificação, revisão sintética, diff e finalização pelo HyperFrames fixado. A mídia de teste mantém 1080×1920, 30 fps, 72 quadros e 2,4 s. A seleção e os filtros de áudio não foram substituídos; nenhum vídeo de usuário foi editado. Os testes comprovam execução e rastreabilidade, não julgamento automático de expressão, escuta ou qualidade artística.

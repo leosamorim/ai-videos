@@ -100,17 +100,37 @@ export function sequenceShots(from, to, fps, step = 1) {
   return shots;
 }
 
-/** Para cada emenda do corte: o último quadro antes e o primeiro depois, lado a lado. */
-export function cutBoundaryShots(edl) {
-  const frame = 1 / edl.fps;
-  const shots = [];
-  edl.keep.slice(1).forEach((range, index) => {
-    const t = range.out_start;
-    const id = `c${String(index + 1).padStart(2, '0')}`;
-    shots.push({ time: t - frame, label: `${id} antes ${clock(t)}` });
-    shots.push({ time: t + frame / 2, label: `${id} depois` });
+/** Bordas no relógio da saída: start, c01… e end (limite exclusivo). */
+export function cutBoundaries(edl) {
+  if (!Number.isFinite(edl?.fps) || edl.fps <= 0 || !Array.isArray(edl.keep) || !edl.keep.length) throw new Error('EDL sem fps/trechos válidos');
+  const boundaries = [{ id: 'start', frame: 0, time: 0 }];
+  let frame = 0;
+  edl.keep.forEach((range, index) => {
+    if (![range.start_frame, range.end_frame].every(Number.isSafeInteger) || range.start_frame < 0 || range.end_frame <= range.start_frame) throw new Error('EDL com limites de quadro inválidos');
+    if (!Number.isFinite(range.out_start) || Math.round(range.out_start * edl.fps) !== frame) throw new Error('EDL com relógio de saída inconsistente');
+    if (index) boundaries.push({ id: `c${String(index).padStart(2, '0')}`, frame, time: frame / edl.fps });
+    frame += range.end_frame - range.start_frame;
+    if (!Number.isSafeInteger(frame)) throw new Error('EDL com contagem de quadros inválida');
   });
-  return shots;
+  boundaries.push({ id: 'end', frame, time: frame / edl.fps });
+  return boundaries;
+}
+
+/** Resumo por padrão; contexto positivo extrai TODOS os quadros de cada janela. */
+export function cutBoundaryShots(edl, { context = 0, boundary = null, maxShots = 2000 } = {}) {
+  if (!Number.isFinite(context) || context < 0) throw new Error('--context deve ser um número não negativo');
+  const boundaries = cutBoundaries(edl);
+  const total = boundaries.at(-1).frame;
+  const selected = boundary === null ? boundaries : boundaries.filter((b) => b.id === boundary);
+  if (!selected.length) throw new Error(`borda desconhecida: ${boundary}; use start, end${boundaries.length > 2 ? ` ou c01…c${String(boundaries.length - 2).padStart(2, '0')}` : ''}`);
+  const radius = Math.max(1, Math.ceil(context * edl.fps));
+  const windows = selected.map((b) => ({ ...b, from: Math.max(0, b.frame - radius), to: Math.min(total - 1, b.frame + radius - 1) }));
+  const count = windows.reduce((n, w) => n + w.to - w.from + 1, 0);
+  if (count > maxShots) throw new Error(`inspeção daria ${count} quadros; use --boundary ID para revisar uma borda por vez`);
+  return windows.flatMap((b) => Array.from({ length: b.to - b.from + 1 }, (_, i) => {
+    const frame = b.from + i;
+    return { frame, time: frame / edl.fps, label: `${b.id} ${frame < b.frame ? 'antes' : 'depois'} q${frame} ${clock(frame / edl.fps)}` };
+  }));
 }
 
 /** Cards devem chegar compilados: âncoras do bruto não são tempos do render. */

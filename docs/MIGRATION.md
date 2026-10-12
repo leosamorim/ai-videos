@@ -2,6 +2,8 @@
 
 Projetos existentes permanecem em schema 2. Não há migração em massa, retranscrição automática, troca de engine ou conversão dos vídeos já produzidos.
 
+O [acabamento de cortes](CUTTING.md) usa os schemas atuais. `frames --cuts` passa a incluir abertura/encerramento e a selecionar índices exatos; `--context` e `--boundary` são opcionais. `cut` gera a tabela de inspeção quando for executado, sem preencher observações ou aprovar automaticamente. Artefatos e revisões existentes não são alterados só pela atualização do mecanismo.
+
 `vid resume` lê os arquivos e calcula o estado em memória, sem gravar `project.json`. Os demais comandos mantêm o comportamento de detectar mudanças e invalidar revisões dependentes.
 
 Os caches novos são preenchidos quando a operação correspondente é executada. Artefatos antigos sem manifesto não são presumidos válidos para compartilhar entre projetos; a primeira execução pode recalcular a mídia. O plano editorial conserva a assinatura da transcrição e precisa ser revisto quando ela muda. Dados de observações não são convertidos em aprovação humana.

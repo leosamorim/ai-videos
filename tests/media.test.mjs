@@ -7,6 +7,7 @@ import { join } from 'node:path';
 import { buildCutFilter, buildEdl } from '../scripts/lib/cuts.mjs';
 import { extractAudio } from '../scripts/lib/transcribe.mjs';
 import { filterFileArgs, probe } from '../scripts/lib/media.mjs';
+import { contactSheets, cutBoundaryShots } from '../scripts/lib/frames.mjs';
 
 test('FFmpeg preserves exact frame count and source audio offset through extraction and cuts', () => {
   const dir = mkdtempSync(join(tmpdir(), 'vid-media-'));
@@ -41,5 +42,16 @@ test('FFmpeg preserves exact frame count and source audio offset through extract
     ff(['-i', source, ...filterFileArgs(filter), '-map', '[v]', '-map', '[a]', '-c:v', 'libx264', '-preset', 'ultrafast', '-c:a', 'aac', output]);
     assert.equal(probe(output).video.frames, 45);
     assert.ok(energy(output, 1.03, 1.15) < 1e-7, 'reordered source silence maps to the correct output segment');
+    // Inspect actual decoded output: the first frame AFTER the seam must not skip
+    // one frame, as a half-frame timestamp with a >= PTS lookup would do.
+    const outDir = join(dir, 'boundaries');
+    const shots = cutBoundaryShots(reordered, { context: 0.1, boundary: 'c01' });
+    contactSheets(output, shots, outDir, { columns: 3, rows: 2, thumbWidth: 160 });
+    assert.deepEqual(JSON.parse(readFileSync(join(outDir, 'manifest.json'))).frame_indices, [27, 28, 29, 30, 31, 32]);
+    for (const [index, frame] of [[2, 29], [3, 30]]) {
+      const actual = ff(['-i', join(outDir, 'frames', `${String(index).padStart(4, '0')}.png`), '-vf', 'crop=160:200:0:70,format=rgb24', '-frames:v', '1', '-f', 'rawvideo', '-']);
+      const expected = ff(['-i', output, '-vf', `select=eq(n\\,${frame}),crop=160:200:0:70,format=rgb24`, '-frames:v', '1', '-f', 'rawvideo', '-']);
+      assert.deepEqual(actual, expected, `sheet shows exact output frame ${frame}`);
+    }
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
