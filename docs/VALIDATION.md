@@ -29,3 +29,17 @@ Verificado em 2026-10-12 com `npm run validate`: 56 testes aprovados, 51 arquivo
 Os testes cobrem abertura/encerramento de um take único, trechos reordenados, fps fracionário, contexto limitado aos quadros existentes, argumentos inválidos e EDL incompatível com o vídeo. A integração FFmpeg compara pixels extraídos com os quadros reais antes/depois de uma emenda, incluindo o primeiro quadro do novo trecho. A integração CLI confere o manifesto de índices e a inspeção localizada do encerramento.
 
 `npm run test:render` também passou: proxy/draft, master/looks, verificação, revisão sintética, diff e finalização pelo HyperFrames fixado. A mídia de teste mantém 1080×1920, 30 fps, 72 quadros e 2,4 s. A seleção e os filtros de áudio não foram substituídos; nenhum vídeo de usuário foi editado. Os testes comprovam execução e rastreabilidade, não julgamento automático de expressão, escuta ou qualidade artística.
+
+## Sinais locais de fala, rosto e gesto
+
+Integração verificada em 2026-10-12: `npm run validate` com 64 testes aprovados e 1 integração opcional omitida; 55 arquivos JavaScript e o worker Python com sintaxe válida, 20 skills sincronizadas. As três skills editoriais passaram no validador de estrutura. `npm run test:render` passou com o HyperFrames fixado, incluindo draft/master, verificação, diff e finalização sintética.
+
+A cópia pública também foi exportada, instalada com `npm ci` e aprovada em `npm run validate`, sem os modelos, gravações, marcas ou projetos privados do workspace.
+
+O runtime foi instalado em venv separado pelo próprio `signals setup --pose`, usando Python 3.12.14, Silero ONNX, ONNX Runtime 1.31.0 e MediaPipe 0.10.32. O setup verificou hashes e carregou os três modelos. `VID_SIGNALS_SMOKE=1 node --test tests/signals.test.mjs` aprovou os 9 testes, incluindo execução nativa, cache, repetição do áudio, contexto de bordas reordenadas, `inspect --face`, atualização do resumo e preservação de decisões. A validação normal continua funcionando sem extras.
+
+O teste de relógio usa pulsos PCM sintéticos com offsets positivo e negativo e verifica a amostra exata. Os testes rejeitam relatórios fora do relógio/cobertura, fonte alterada, bytes corrompidos e resumo antigo após mudança do plano. Atividade breve permanece no resumo VAD; orientação da cabeça não gera julgamento de atuação; variações visuais não atravessam janelas sem amostragem.
+
+Também foi executada uma checagem privada em três gravações previamente ensaiadas, totalizando 848,822 s. A nova CLI levou cerca de **4,65 s** para medir todo o áudio e **17,50 s** para rosto + pose em 12 janelas, com 531 amostras visuais a 5 fps, usando proxies SDR já existentes. Esses tempos incluem preparação/CLI local e variam com hardware/cache; não incluem criação dos proxies. O VAD coincidiu com o ensaio anterior até o arredondamento de seis casas (diferença máxima inferior a 0,0000005). O cache devolveu as mesmas amostras. Hashes dos brutos, transcrições, planos e manifestos dos projetos originais permaneceram iguais.
+
+Os artefatos privados ficaram fora do Git/export. Essa checagem avaliou integração e medições, sem nova escuta ou avaliação contínua dos vídeos. Não estabelece precisão de detecção de erros, superioridade editorial nem aprovação dos cortes. Sinais continuam auxiliares ao julgamento audiovisual.

@@ -16,6 +16,7 @@ O objetivo é reduzir trabalho repetido, saídas extensas e contexto carregado e
 
 - **ASR:** identidade do PCM alinhado, duração, provedor, idioma, engine, modelo e termos efetivamente enviados. Só o resultado original entra no cache; correções do projeto não contaminam outros projetos. `transcribe --force` ignora e renova o cache desse insumo, preservando a transcrição anterior no projeto.
 - **Análise:** imagens dependem do vídeo e da amostragem. O `source_signature` editorial continua dependendo também da transcrição. Uma correção pode reutilizar os mesmos pixels, mas não silenciosamente validar o plano antigo. Detalhes conservam hashes do clip e das folhas.
+- **Sinais:** Silero no bruto uma vez por conteúdo; MediaPipe apenas em janelas solicitadas. O cache inclui relógio, modelos, runtime e parâmetros, sem depender da grafia da transcrição. Leia SIGNALS.md antes de abrir séries numéricas. Resumos contra o plano atual são recalculados; medições não aprovam cortes. [Uso e limites](SIGNALS.md).
 - **Corte:** vídeo bruto, filtro efetivamente compilado, fps, CRF e versões. Se apenas o texto mudar e os intervalos permanecerem iguais, master/proxy são reaproveitados; fala retimada e âncoras são recalculadas. `cut --force` regenera a mídia.
 - **Verificação de fala:** ASR pode ser reaproveitado quando o áudio é idêntico. A comparação contra as palavras esperadas é sempre recalculada.
 
@@ -48,7 +49,7 @@ Sem revisão anterior válida ou sem inventário completo das animações, faça
 
 `check` e `render` salvam logs completos em `06-review/` e imprimem resumo; `--verbose` mostra a saída integral. `frames` extrai quadros selecionados em lote, usa PTS para pedidos por tempo e reutiliza folhas intactas. `--crop` permite conferir detalhes sem abrir folhas gigantes.
 
-Use uma sessão por projeto ou revisão delimitada, com decisões salvas antes de encerrar. Não imponha número máximo de renders se houver defeito conhecido. Modelos de visão locais, outro provedor multimodal, separação automática de atuação e render parcial continuam opções de pesquisa: não são dependências nem substitutos implantados para o julgamento audiovisual.
+Use uma sessão por projeto ou revisão delimitada, com decisões salvas antes de encerrar. Não imponha número máximo de renders se houver defeito conhecido. Silero/MediaPipe são extras locais de medição; outro provedor multimodal, separação automática de atuação e render parcial continuam opções de pesquisa, sem substituir o julgamento audiovisual.
 
 ## Medir o ganho
 

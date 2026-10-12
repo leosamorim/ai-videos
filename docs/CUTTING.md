@@ -17,6 +17,8 @@ Uma expressão transitória durante a fala pode parecer estranha em um quadro is
 
 ## Refinar entradas e saídas
 
+Os [sinais locais de fala/rosto](SIGNALS.md) ajudam a priorizar a investigação. Leia o resumo do Silero após `analyze`; use `inspect --face` nas dúvidas e `signals --face --boundaries` depois de selecionar takes. `editorial`/`cut --dry-run` avisam quando medições válidas pedem atenção. Esses avisos usam o relógio do bruto, não aprovam cortes nem detectam “caretas”. Pose é apoio opcional para localizar gestos. A revisão montada continua necessária, mesmo sem avisos.
+
 Depois de escolher e ordenar os takes, revise as duas bordas de cada trecho. Diferencie o fim da fala útil, o fim da ação útil e o início de preparação/reset, quando existirem. A transcrição ajuda a localizar a fala, mas esses momentos podem não coincidir. Apoie a decisão nas evidências do bruto e confira o resultado montado antes de investir em gráficos.
 
 - **Entrada:** preservar o ataque da primeira palavra e a preparação necessária para entender o gesto. Retirar preparação técnica ou espera que não comunique nada.

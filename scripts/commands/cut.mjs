@@ -8,6 +8,7 @@ import { finishStage, loadProject, rel, saveProject, setStage } from '../lib/pro
 import { evidenceFileErrors, sourceSignature, validateEditPlan } from '../lib/editorial.mjs';
 import { readCache, restoreCache, toolVersions, writeCache } from '../lib/cache.mjs';
 import { fileHash } from '../lib/fingerprint.mjs';
+import { signalPreflight } from '../lib/signals.mjs';
 import { clock, fail, numberFlag, parseArgs, readJson, round, run } from '../lib/util.mjs';
 
 function loadInputs(project) {
@@ -133,6 +134,8 @@ export function cut(args) {
   const edl = buildEdl({ selections, deletes, duration: source.duration, fps, words: tight });
   if (!edl.keep.length) fail('nenhum trecho selecionado');
   const words = retimeWords(tight, edl.keep);
+  const signalNotes = signalPreflight(project, edl.keep);
+  for (const note of signalNotes) console.warn(`Sinal para revisão: ${note}`);
   console.log(`Corte: ${clock(source.duration)} → ${clock(edl.edited_duration)} em ${edl.keep.length} trechos.`);
   if (flags['dry-run']) return console.log('Simulação: nenhum arquivo de corte foi gerado.');
   setStage(project, 'cut', 'in-progress', 'compilando seleção editorial');
@@ -145,6 +148,7 @@ export function cut(args) {
     ...(plan?.discarded ?? []).map((s) => `- Removido ${s.start}–${s.end}: ${s.reason}`), '',
     '## Fala resultante', words.map((w) => w.text).join(' '), '',
     'Reproduza as emendas e confira sentido, respiração, gestos, início/fim da atuação. A revisão dos quadros não comprova naturalidade sonora.',
+    ...(signalNotes.length ? ['', '## Sinais auxiliares (tempos do bruto; não decidem cortes)', '', ...signalNotes.map((note) => `- ${note}`)] : []),
     '', '## Acabamento das bordas', '',
     'Siga docs/CUTTING.md. Os tempos abaixo são da saída, não do bruto. Complete cada linha após abrir as evidências; gerar folhas não constitui revisão.', '',
     '| Borda | Tempo de saída | Evidência / método e limites | Observação visual / sonora | Decisão e motivo |',

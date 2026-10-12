@@ -17,6 +17,7 @@ Não há um classificador fixo que deduz intenção de um rosto. O agente examin
 | `00-references/` | Cópias locais, manifesto de origem/papel e direction.json |
 | `01-transcript/` | PCM alinhado ao vídeo, palavras originais e versão de leitura |
 | `01-analysis/` | Prévia SDR, folhas gerais, clips de detalhe e evidence.json |
+| `01-analysis/signals.json`, `SIGNALS.md`, `signals/` (opcionais) | Índice, resumo e medições locais de fala/rosto; não contam como inspeção realizada |
 | `02-cut/` | edit-plan.json, sugestões acústicas, EDL, master e proxy, fala retimada |
 | `03-plan/` | Storyboard semântico e resolved.json com tempos compilados |
 | `04-composition/` | HyperFrames, mídia local (proxy/master), gráficos, legendas e tema |
@@ -42,8 +43,11 @@ Rode a partir da raiz. `npm run vid -- ...` equivale a `node scripts/vid.mjs ...
 | `strategy SLUG --init` / `strategy SLUG` | Inicializa sem sobrescrever / valida estratégia orgânica; contrato e uso em [MARKETING.md](MARKETING.md) |
 | `transcribe SLUG` | ASR local; `--force` arquiva e regenera; `--provider elevenlabs`, `--model`, `--engine`, `--lang`, `--keyterms` opcionais |
 | `words SLUG --from N --to M` | Mostra índices/tempos; `--edited` usa a fala cortada |
-| `analyze SLUG --every 2` | Prévia e cobertura geral; mídia em cache por vídeo/amostragem, revisão editorial vinculada também à transcrição |
-| `inspect SLUG --from S --to E --every 0.25` | Clip do intervalo com áudio e sequência densa; tempos são do bruto |
+| `analyze SLUG --every 2` | Prévia e cobertura geral; Silero opcional com `--signals auto\|required\|off` (padrão auto); cache por conteúdo |
+| `signals setup --face --python python3.12` | Instala extras locais; sem `--face`, só Silero; `--pose` inclui gestos; `signals --status` verifica instalação |
+| `signals SLUG` | Mede fala no bruto; `--face --from S --to E` mede rosto; `--pose` inclui punhos; [contrato](SIGNALS.md) |
+| `signals SLUG --face --boundaries --context 1` | Mede janelas nas bordas do plano; cache, sem alterar decisões; fps padrão 5 |
+| `inspect SLUG --from S --to E --every 0.25` | Clip do intervalo com áudio e sequência densa; `--face`/`--pose` adicionam sinais; tempos são do bruto |
 | `editorial SLUG` | Valida o plano audiovisual sem renderizar |
 | `silences SLUG` | Sugestões acústicas e alinhamento auxiliar; não substitui o plano editorial |
 | `cut SLUG --dry-run` | Valida e calcula seleção sem criar arquivos de corte |

@@ -13,6 +13,8 @@ Run `vid frames --cuts`, `--cards` or `--at` as appropriate, open outputs, and i
 
 Review the opening, every seam and ending according to [cut finishing](../../../docs/CUTTING.md). `frames --cuts` is a static locator; without playback, use `--cuts --context 0.5` on the exact render for consecutive frames (optionally `--boundary start|c01|end` to limit a call). Increase context when needed; it is not automatic cut padding. Record each boundary's evidence, visual/audio observation, decision and limitations in `checks.seams.notes` or a linked local report tied to that render hash. Preserve meaningful gaze, expression, silence and breath; remove demonstrated recording leftovers without clipping useful speech or action. Frame-only review cannot certify the sound.
 
+Consult any [signal warnings](../../../docs/SIGNALS.md) in CUT-REVIEW.md as source-clock inspection prompts. Silero/MediaPipe measurements describe the source, not the finished seam; verify the assembled output even when every measurement is quiet. Do not rerun detectors on a music/SFX mix or count their JSON as playback/visual review. Technical detection does not establish natural delivery or justify removing a meaningful silent gesture.
+
 Use `vid review` to prepare review.json. Cover:
 
 - meaning: the intended explanation remains truthful, complete and coherent;

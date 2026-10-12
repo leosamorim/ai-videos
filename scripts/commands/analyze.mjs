@@ -8,6 +8,7 @@ import { digest, fileHash } from '../lib/fingerprint.mjs';
 import { readCache, restoreCache, toolVersions, writeCache } from '../lib/cache.mjs';
 import { contactSheets } from '../lib/frames.mjs';
 import { ROOT, fail, numberFlag, parseArgs, readJson, run } from '../lib/util.mjs';
+import { analyzeSignals, generateSignals, signalPreflight } from '../lib/signals.mjs';
 
 const write = (path, data) => writeFileSync(path, JSON.stringify(data, null, 2) + '\n');
 function transcript(project) {
@@ -20,6 +21,7 @@ function transcript(project) {
 
 export function analyze(args) {
   const { flags, positional } = parseArgs(args, { booleans: ['force'] });
+  if (flags.signals && !['auto', 'off', 'required'].includes(flags.signals)) fail('--signals deve ser auto, required ou off');
   const project = loadProject(positional[0]);
   const words = transcript(project).words;
   const signature = sourceSignature(project);
@@ -27,7 +29,10 @@ export function analyze(args) {
   const step = numberFlag(flags, 'every', 2);
   if (step < 0.2 || step > 10) fail('--every deve ficar entre 0.2 e 10 segundos');
   const cached = existsSync(path) ? readJson(path) : null;
-  if (cached?.source_signature === signature && cached.sampling_step === step && !evidenceFileErrors(cached).length && !flags.force) return console.log(`Evidências em cache: ${rel(path)}. Use inspect para aprofundar intervalos.`);
+  if (cached?.source_signature === signature && cached.sampling_step === step && !evidenceFileErrors(cached).length && !flags.force) {
+    analyzeSignals(project, flags.signals);
+    return console.log(`Evidências em cache: ${rel(path)}. Use inspect para aprofundar intervalos.`);
+  }
   setStage(project, 'analysis', 'in-progress');
   const raw = join(project.dir, project.data.source.file);
   const info = probe(raw);
@@ -82,11 +87,12 @@ export function analyze(args) {
     'Preencha 02-cut/edit-plan.json com keeps na ordem final, descartes que cubram o restante, observações e justificativas. Na dúvida mantenha.',
   ].join('\n'));
   setStage(project, 'analysis', 'done', `${items.length} evidências; seleção editorial pendente`);
+  analyzeSignals(project, flags.signals, Boolean(flags.force));
   console.log(`Evidências: ${rel(path)}\nLeia ${rel(join(project.paths.analysis, 'REVIEW.md'))}`);
 }
 
 export function inspect(args) {
-  const { flags, positional } = parseArgs(args, { booleans: ['force'] });
+  const { flags, positional } = parseArgs(args, { booleans: ['force', 'face', 'pose'] });
   const project = loadProject(positional[0]);
   const path = join(project.paths.analysis, 'evidence.json');
   if (!existsSync(path)) fail('rode analyze antes de inspect');
@@ -94,10 +100,14 @@ export function inspect(args) {
   if (evidence.source_signature !== sourceSignature(project)) fail('evidências antigas: rode analyze');
   const start = numberFlag(flags, 'from', NaN), end = numberFlag(flags, 'to', NaN);
   if (!(start >= 0 && end > start && end <= evidence.duration)) fail('informe --from e --to dentro da duração da fonte');
+  const measure = () => {
+    if (flags.face || flags.pose) generateSignals(project, { face: flags.face, pose: flags.pose, windows: [{ start, end }], force: Boolean(flags.force) });
+  };
   const id = `detail-${Math.round(start * 1000)}-${Math.round(end * 1000)}`;
   const step = Math.max(0.1, numberFlag(flags, 'every', 0.25));
   const previous = evidence.items.find((item) => item.id === id);
   if (!flags.force && previous?.sampling_step === step && previous.sheet_hashes && !evidenceFileErrors({ items: [previous] }).length) {
+    measure();
     return console.log(`Inspeção em cache: ${previous.path}\n${previous.sheets.join('\n')}`);
   }
   const dir = join(project.paths.analysis, evidence.source_signature.slice(0, 12), id);
@@ -130,6 +140,7 @@ export function inspect(args) {
   evidence.items.push({ id, type: 'motion-clip', start, end, path: rel(clip), sha256: fileHash(clip), sampling_step: step, sheets: sheets.map(rel), sheet_hashes: Object.fromEntries(sheets.map((p) => [rel(p), fileHash(p)])) });
   write(path, evidence);
   setStage(project, 'analysis', 'done', id);
+  measure();
   console.log(`${id}: ${rel(clip)}\n${sheets.map(rel).join('\n')}`);
 }
 
@@ -145,5 +156,6 @@ export function editorial(args) {
   const words = existsSync(silencePath) ? tightenWords(raw, readJson(silencePath).silences) : raw;
   const errors = [...evidenceFileErrors(evidence), ...validateEditPlan(readJson(planPath), evidence, words, project.data.source.duration, sourceSignature(project))];
   if (errors.length) fail(errors.join('\n'));
+  for (const note of signalPreflight(project, readJson(planPath).segments)) console.warn(`Sinal para revisão: ${note}`);
   console.log('Plano editorial válido: fala + vídeo revisados, decisões completas e bordas preservadas.');
 }

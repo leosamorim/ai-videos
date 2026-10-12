@@ -3,6 +3,7 @@ import { existsSync, lstatSync, readdirSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { HYPERFRAMES, ROOT, loadEnv, readJson, run } from '../lib/util.mjs';
+import { signalRuntimeStatus } from '../lib/signal-runtime.mjs';
 
 export function doctor() {
   const rows = [];
@@ -58,6 +59,10 @@ export function doctor() {
   ].join(' · '));
 
   add(existsSync(join(ROOT, 'templates/fonts/fonts.json')), 'fontes genéricas', 'templates/fonts/fonts.json; brand/ é opcional e privado');
+  const signals = signalRuntimeStatus();
+  add(signals.ok, 'Silero (opcional)', signals.ok ? 'runtime e modelo íntegros; analyze usa cache' : signals.hint, false);
+  const face = signalRuntimeStatus({ face: true });
+  add(face.ok, 'MediaPipe (opcional)', face.ok ? 'runtime e modelo íntegros; usar em janelas duvidosas' : face.hint, false);
 
   let failed = 0;
   for (const row of rows) {

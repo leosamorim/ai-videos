@@ -21,6 +21,8 @@ For a new organic social edit, load `video-strategy` to connect the audience's s
 
 `review_policy` carries the chosen collaboration mode. In autonomous mode complete decisions with recorded evidence, without new permission loops. In assisted mode obtain the user's review of concrete cut/draft artifacts; a storyboard may be reviewed with the animatic instead of a separate interview. User instructions override generic vendor gates.
 
+Use [local audiovisual signals](../../../docs/SIGNALS.md) during understanding and boundary finishing: `analyze` runs cached Silero when installed; read SIGNALS.md with the transcript and overview images. For uncertain source intervals, `inspect --face` adds measurements to the clip/frames; `--pose` is optional for gestures. After take selection, `signals --face --boundaries` can help focus inspection before `editorial`/`cut --dry-run`. Setup is explicit and local; unavailable extras must not stall ordinary audiovisual work. Signals never select takes, repair timestamps, approve evidence or replace source/assembled-video review.
+
 When the voice needs cleanup, read [speech cleanup](../../../docs/AUDIO.md) after take selection and before mixing. DeepFilterNet3 is the preferred local starting point, supported by the maintainer's listening comparison; use moderate attenuation and preserve breaths, words and sample timing. Keep the original control, treat voice separately from music/SFX, and follow the guide's separate-audio-asset integration so master/proxy hashes remain valid. A clean recording need not be processed; a previous preference does not approve a new render.
 
 ## Efficient iteration

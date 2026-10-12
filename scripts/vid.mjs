@@ -18,6 +18,7 @@ const COMMANDS = {
   remember: ['discovery', 'Registra uma referência analisada e feedback a partir de um JSON; --replace revisa explicitamente'],
   strategy: ['strategy', 'Inicia (--init) ou valida direção de marketing orgânico ligada ao storyboard'],
   analyze: ['analyze', 'Prepara vídeo de inspeção, quadros e candidatos a retomadas/preparação'],
+  signals: ['signals', 'Sinais locais de fala/rosto para orientar inspeção; setup instala extras; --help detalha'],
   inspect: ['analyze', 'Examina um intervalo: --from segundos --to segundos; clip + sequência densa'],
   editorial: ['analyze', 'Valida seleção de takes, descartes, evidências e cobertura do bruto'],
   plan: ['plan', 'Inicia (--init) ou valida storyboard com âncoras por palavra e tema'],

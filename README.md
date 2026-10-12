@@ -7,6 +7,7 @@ O repositório distribui **somente o mecanismo**. Gravações, marcas, briefings
 ## Capacidades
 
 - Seleção e reordenação de takes com evidências audiovisuais, proteção de palavras e preservação de demonstrações úteis.
+- Sinais locais opcionais de fala (Silero) e rosto/gestos (MediaPipe), com cache, para orientar inspeção e avisar sobre bordas duvidosas.
 - Referências de sites, documentos e vídeos; estratégia de conteúdo orgânico vinculada a promessa, evidência, payoff e CTA.
 - Legendas e gráficos ancorados em palavras, reframes e primitivas GSAP de entrada, traço e clique.
 - Master em resolução original, prévia em proxy e entrega verificada.
@@ -54,6 +55,7 @@ Para revisões, `vid resume` evita recarregar todo o histórico. `compose --medi
 | Organização e contratos | [Arquitetura](docs/ARCHITECTURE.md) |
 | Direção editorial e marketing | [Craft](docs/CRAFT.md), [marketing](docs/MARKETING.md) |
 | Bordas de takes, pausas e ruídos | [Acabamento de cortes](docs/CUTTING.md) |
+| Silero e MediaPipe: instalação e uso na seleção | [Sinais audiovisuais](docs/SIGNALS.md) |
 | Limpeza de fala: preferência por DeepFilterNet3, integração opcional e revisão | [Áudio](docs/AUDIO.md) |
 | Fontes de consulta autônoma | [Biblioteca](library/SOURCES.md) |
 | Composição e movimentos | [Técnicas](docs/COMPOSITION.md), [componentes](docs/COMPONENTS.md) |

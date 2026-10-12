@@ -8,6 +8,10 @@ on:
         description: Run the HyperFrames render smoke test
         type: boolean
         default: false
+      signals:
+        description: Run local Silero and MediaPipe integration with synthetic media
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -34,3 +38,12 @@ jobs:
       - name: HyperFrames render smoke
         if: github.event_name == 'workflow_dispatch' && inputs.render
         run: npm run test:render
+      - uses: actions/setup-python@v5
+        if: github.event_name == 'workflow_dispatch' && inputs.signals
+        with:
+          python-version: '3.12'
+      - name: Local signal models smoke
+        if: github.event_name == 'workflow_dispatch' && inputs.signals
+        run: |
+          node scripts/vid.mjs signals setup --pose --python python3.12
+          VID_SIGNALS_SMOKE=1 node --test tests/signals.test.mjs

@@ -11,4 +11,6 @@ Use Node.js 22 ou superior, FFmpeg/ffprobe 6 ou superior com libx264, drawtext, 
 
 Não mude o reconhecedor de fala, a versão do HyperFrames, o formato dos projetos ou o mecanismo de revisão incidentalmente. Atualizações de vendor precisam manter versão, lockfile, licença, política local e testes alinhados. Nunca codifique uma preferência de uma marca como regra global.
 
+Ao alterar sinais audiovisuais, siga [SIGNALS.md](docs/SIGNALS.md): mantenha modelos/hashes fixados, valide offsets e cobertura e rode a integração nativa com fonte sintética (`VID_SIGNALS_SMOKE=1 node --test tests/signals.test.mjs`, após `signals setup --pose`). O teste normal não instala extras nem acessa rede; a CI oferece o teste nativo por acionamento manual. Não transforme probabilidades ou ângulos em decisões automáticas de descarte.
+
 O export público é produzido por `npm run release:export`. Ao acrescentar uma categoria de arquivo distribuído, atualize `.gitignore`, `scripts/lib/public-repo.mjs` e seus testes juntos. Arquivos ignorados já rastreados continuam no Git: a auditoria deve passar antes de abrir a PR.
