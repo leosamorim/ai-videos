@@ -1,0 +1,15 @@
+name: Feature request
+description: Propose a focused improvement to the engine
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Editorial or technical problem
+      description: Describe the outcome and the current limitation.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior and validation
+      description: Include the quality guardrails and how to measure the improvement.

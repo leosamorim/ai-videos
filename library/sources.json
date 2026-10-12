@@ -1,0 +1,505 @@
+{
+  "schema": 1,
+  "sources": [
+    {
+      "id": "hyperframes",
+      "title": "Catálogo HyperFrames fixado",
+      "kinds": [
+        "motion",
+        "typography",
+        "texture"
+      ],
+      "tags": [
+        "legenda",
+        "captions",
+        "textura",
+        "transicao",
+        "transition",
+        "overlay",
+        "kinetic",
+        "reveal"
+      ],
+      "purpose": "Encontrar um movimento que sirva ao beat; abrir preview e inspecionar antes de instalar um item.",
+      "url": "https://github.com/heygen-com/hyperframes",
+      "domain": "github.com",
+      "access": "pinned-cli",
+      "license": "Conferir licença do item e seus assets",
+      "license_url": "https://github.com/heygen-com/hyperframes",
+      "priority": 0,
+      "notes": "Consulta real retornou total 446; são itens disponíveis, não instalados. Usar consulta em inglês. Não enviar feedback/telemetria por efeito desta busca.",
+      "checked_on": "2026-10-11",
+      "check_method": "live-cli",
+      "command": "node scripts/hf.mjs catalog --query \"describe the visual function in English\" --json"
+    },
+    {
+      "id": "eyecandy",
+      "title": "Eyecandy — técnicas em exemplos reais",
+      "kinds": [
+        "editing",
+        "motion"
+      ],
+      "tags": [
+        "ritmo",
+        "gesto",
+        "match",
+        "cut",
+        "split",
+        "transicao",
+        "cinema",
+        "reveal"
+      ],
+      "purpose": "Encontrar uma técnica nomeada e observar como ela liga duas ideias/ações.",
+      "url": "https://eyecannndy.com/",
+      "domain": "eyecannndy.com",
+      "access": "web+browser",
+      "license": "Referência visual; sem autorização presumida para reutilizar clips",
+      "license_url": "https://eyecannndy.com/",
+      "priority": 1,
+      "notes": "Categorias/texto acessíveis; para movimento, abrir o exemplo e usar playback. Um GIF observado não demonstra som.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-page"
+    },
+    {
+      "id": "never-too-small",
+      "title": "Never Too Small — espaço e demonstração",
+      "kinds": [
+        "editing"
+      ],
+      "tags": [
+        "arquitetura",
+        "interiores",
+        "espaco",
+        "planta",
+        "storage",
+        "architecture",
+        "demonstracao"
+      ],
+      "purpose": "Estudar a relação entre fala, planta, detalhe e espaço; consultar só quando o domínio combinar.",
+      "url": "https://www.nevertoosmall.com/",
+      "domain": "www.nevertoosmall.com",
+      "access": "web+browser",
+      "license": "Referência editorial; direitos dos vídeos permanecem com titulares",
+      "license_url": "https://www.nevertoosmall.com/",
+      "priority": 2,
+      "notes": "Página de índice foi lida; os episódios não foram avaliados em playback nesta curadoria.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-page"
+    },
+    {
+      "id": "fonts-in-use",
+      "title": "Fonts In Use — tipografia em contexto",
+      "kinds": [
+        "typography"
+      ],
+      "tags": [
+        "fonte",
+        "letra",
+        "editorial",
+        "tipografia",
+        "serif",
+        "layout"
+      ],
+      "purpose": "Comparar hierarquia e combinações reais; separar fonte de marca e tratamento do texto.",
+      "url": "https://fontsinuse.com/",
+      "domain": "fontsinuse.com",
+      "access": "web+browser",
+      "license": "Observar exemplos; obter cada fonte sob sua própria licença",
+      "license_url": "https://fontsinuse.com/",
+      "priority": 1,
+      "notes": "",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-page"
+    },
+    {
+      "id": "fontsource",
+      "title": "Fontsource — fontes locais",
+      "kinds": [
+        "typography"
+      ],
+      "tags": [
+        "font",
+        "fonte",
+        "woff2",
+        "latin",
+        "portugues",
+        "tipografia"
+      ],
+      "purpose": "Obter a família escolhida, checar acentos e licença da fonte, registrar no manifesto local.",
+      "url": "https://fontsource.org/",
+      "domain": "fontsource.org",
+      "access": "web+package-metadata",
+      "license": "Por família; não confundir licença do tooling com a dos glifos",
+      "license_url": "https://fontsource.org/fonts/open-sans/about",
+      "priority": 2,
+      "notes": "OFL-1.1 confirmada no exemplo Open Sans; não é declaração de uma licença única para todo o catálogo.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-page"
+    },
+    {
+      "id": "gsap-eases",
+      "title": "GSAP Eases — timing nomeado",
+      "kinds": [
+        "motion"
+      ],
+      "tags": [
+        "easing",
+        "curva",
+        "ritmo",
+        "movimento",
+        "entrada",
+        "saida"
+      ],
+      "purpose": "Escolher curvas pela função e hierarquia; testar em tempo de vídeo na versão instalada.",
+      "url": "https://gsap.com/docs/v3/Eases/",
+      "domain": "gsap.com",
+      "access": "web+browser",
+      "license": "GSAP Standard License, não MIT",
+      "license_url": "https://gsap.com/community/standard-license/",
+      "priority": 1,
+      "notes": "O visualizador ajuda a comparar; nenhuma curva elimina a necessidade de duração adequada.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-page"
+    },
+    {
+      "id": "roughjs",
+      "title": "Rough.js — anotações orgânicas",
+      "kinds": [
+        "motion",
+        "icon"
+      ],
+      "tags": [
+        "seta",
+        "cota",
+        "anotacao",
+        "traco",
+        "desenho",
+        "hand",
+        "drawn"
+      ],
+      "purpose": "Traço controlado para orientar detalhes; seed fixo e caminho determinístico na timeline.",
+      "url": "https://roughjs.com/",
+      "domain": "roughjs.com",
+      "access": "web+source",
+      "license": "MIT",
+      "license_url": "https://raw.githubusercontent.com/rough-stuff/rough/master/LICENSE",
+      "priority": 2,
+      "notes": "Adaptar apenas quando o traço combina com o tema. Não instalar um framework para desenhar uma seta.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-license-file"
+    },
+    {
+      "id": "lucide",
+      "title": "Lucide — ícones coerentes",
+      "kinds": [
+        "icon"
+      ],
+      "tags": [
+        "icone",
+        "icon",
+        "linha",
+        "stroke",
+        "seta"
+      ],
+      "purpose": "Escolher uma família e manter espessura de traço e função consistentes.",
+      "url": "https://lucide.dev/",
+      "domain": "lucide.dev",
+      "access": "web+source",
+      "license": "ISC; conferir termos e autoria aplicáveis ao item",
+      "license_url": "https://lucide.dev/license",
+      "priority": 2,
+      "notes": "",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-page"
+    },
+    {
+      "id": "openverse",
+      "title": "Openverse — imagens e áudio pesquisáveis",
+      "kinds": [
+        "image",
+        "texture",
+        "sfx",
+        "music"
+      ],
+      "tags": [
+        "textura",
+        "papel",
+        "paper",
+        "foley",
+        "click",
+        "clique",
+        "ambiente",
+        "musica",
+        "ambient",
+        "piano",
+        "texture"
+      ],
+      "purpose": "Pesquisar metadados por tema/qualidade sonora; abrir original e verificar item antes de baixar.",
+      "url": "https://openverse.org/",
+      "domain": "openverse.org",
+      "access": "anonymous-api",
+      "license": "Por item; adaptador filtra CC0 e CC BY, sem aprovar direitos automaticamente",
+      "license_url": "https://docs.openverse.org/api/reference/made_with_ov.html",
+      "priority": 1,
+      "notes": "API real de imagens e áudio testada. Consultas simples só; sem enviar transcrição ou briefing privado. URLs de áudio podem ser previews.",
+      "checked_on": "2026-10-11",
+      "check_method": "live-api+primary-docs",
+      "api_docs": "https://docs.openverse.org/packages/js/api_client/index.html"
+    },
+    {
+      "id": "kenney-audio",
+      "title": "Kenney — sons curtos CC0",
+      "kinds": [
+        "sfx"
+      ],
+      "tags": [
+        "click",
+        "clique",
+        "interface",
+        "botao",
+        "foley",
+        "ui"
+      ],
+      "purpose": "Encontrar um acento discreto para ação/revelação; ouvir antes de escolher e não sonorizar todo corte.",
+      "url": "https://kenney.nl/assets/interface-sounds",
+      "domain": "kenney.nl",
+      "access": "web+download",
+      "license": "CC0 conforme página do pacote",
+      "license_url": "https://kenney.nl/support",
+      "priority": 1,
+      "notes": "Página informa 100 sons; nenhum pacote foi baixado ou ouvido nesta curadoria.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-page"
+    },
+    {
+      "id": "freesound",
+      "title": "Freesound — foley e ambientes",
+      "kinds": [
+        "sfx",
+        "music"
+      ],
+      "tags": [
+        "som",
+        "foley",
+        "ambiente",
+        "passos",
+        "clique",
+        "wood",
+        "paper",
+        "room"
+      ],
+      "purpose": "Buscar ação/material concreto; escutar variações e distinguir ruído de gravação de textura útil.",
+      "url": "https://freesound.org/",
+      "domain": "freesound.org",
+      "access": "web+account-or-api-key",
+      "license": "CC0, CC BY e outras por arquivo; algumas não permitem uso comercial",
+      "license_url": "https://freesound.org/help/faq/",
+      "priority": 2,
+      "notes": "Openverse oferece descoberta sem chave de itens indexados. Preview e master podem ter acessos diferentes; não prometer download autenticado.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-page"
+    },
+    {
+      "id": "mixkit",
+      "title": "Mixkit — trilhas e efeitos",
+      "kinds": [
+        "music",
+        "sfx",
+        "video"
+      ],
+      "tags": [
+        "musica",
+        "music",
+        "ambient",
+        "piano",
+        "foley",
+        "sfx",
+        "whoosh"
+      ],
+      "purpose": "Encontrar música que deixe espaço à fala ou um efeito específico, conforme o beat.",
+      "url": "https://mixkit.co/",
+      "domain": "mixkit.co",
+      "access": "web+browser",
+      "license": "Licença por tipo/item; vídeos também têm categoria Restricted",
+      "license_url": "https://mixkit.co/license/",
+      "priority": 2,
+      "notes": "O índice de licenças foi consultado; conferir termos do item selecionado. Não presumir termos iguais para música e SFX.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-page"
+    },
+    {
+      "id": "ambientcg",
+      "title": "ambientCG — texturas CC0",
+      "kinds": [
+        "texture"
+      ],
+      "tags": [
+        "papel",
+        "paper",
+        "concreto",
+        "wood",
+        "grain",
+        "material",
+        "textura"
+      ],
+      "purpose": "Obter uma textura discreta de material; escolher resolução adequada em vez de baixar mapas PBR completos.",
+      "url": "https://ambientcg.com/",
+      "domain": "ambientcg.com",
+      "access": "web+download",
+      "license": "CC0 conforme documentação",
+      "license_url": "https://docs.ambientcg.com/license/",
+      "priority": 1,
+      "notes": "Usar download oficial do item; integração com sua API não implementada.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-page"
+    },
+    {
+      "id": "texturelabs",
+      "title": "Texturelabs — texturas para produto final",
+      "kinds": [
+        "texture"
+      ],
+      "tags": [
+        "papel",
+        "grao",
+        "grain",
+        "light",
+        "leak",
+        "texture"
+      ],
+      "purpose": "Consultar uma textura que tenha função no tratamento, mantendo o arquivo restrito ao projeto.",
+      "url": "https://texturelabs.org/",
+      "domain": "texturelabs.org",
+      "access": "web+download",
+      "license": "Termos próprios; uso em vídeo permitido com restrições",
+      "license_url": "https://texturelabs.org/terms/",
+      "priority": 3,
+      "notes": "Não redistribuir originais/templates/packs, nem usar para treinamento ou assistência à geração de imagens por IA. Não incorporar um pacote Texturelabs ao repo.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-page"
+    },
+    {
+      "id": "pexels",
+      "title": "Pexels — B-roll e imagem",
+      "kinds": [
+        "video",
+        "image"
+      ],
+      "tags": [
+        "b-roll",
+        "stock",
+        "ambiente",
+        "people",
+        "pessoas",
+        "architecture"
+      ],
+      "purpose": "Buscar apoio contextual somente quando material real do projeto não resolve a função.",
+      "url": "https://www.pexels.com/",
+      "domain": "www.pexels.com",
+      "access": "web+browser-or-api-key",
+      "license": "Pexels License por uso; conferir item e pessoas/marcas retratadas",
+      "license_url": "https://www.pexels.com/license/",
+      "priority": 3,
+      "notes": "API oficial existe; não tratar o site como universalmente inacessível. Adaptador com chave não implementado.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-api-help",
+      "api_docs": "https://help.pexels.com/hc/en-us/articles/47677890260761-Is-the-Pexels-API-free-to-use"
+    },
+    {
+      "id": "tiktok-creative-center",
+      "title": "TikTok Creative Center — anúncios como referência",
+      "kinds": [
+        "editing"
+      ],
+      "tags": [
+        "gancho",
+        "hook",
+        "produto",
+        "ads",
+        "abertura",
+        "proof"
+      ],
+      "purpose": "Examinar apresentação de problema/prova e forma visual; manter hipótese separada do desempenho orgânico.",
+      "url": "https://ads.tiktok.com/business/creativecenter/inspiration/topads/pc/en",
+      "domain": "ads.tiktok.com",
+      "access": "browser-may-require-login",
+      "license": "Acesso para estudo; não concede direito de reutilizar criativos",
+      "license_url": "https://ads.tiktok.com/help/article/top-ads?lang=en",
+      "priority": 4,
+      "notes": "Top Ads contém anúncios autorizados pelos anunciantes; recorte selecionado, com acesso ampliado por login. Não é amostra causal de orgânico.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-page"
+    },
+    {
+      "id": "meta-ad-library",
+      "title": "Meta Ad Library — mensagens de mercado",
+      "kinds": [
+        "editing"
+      ],
+      "tags": [
+        "anuncio",
+        "concorrente",
+        "brand",
+        "ads",
+        "oferta"
+      ],
+      "purpose": "Observar argumentos e convenções do segmento; evitar tomar anúncio ativo como anúncio vencedor.",
+      "url": "https://www.facebook.com/ads/library/",
+      "domain": "www.facebook.com",
+      "access": "browser-may-require-login",
+      "license": "Referência apenas; direitos do anunciante",
+      "license_url": "https://www.facebook.com/ads/library/",
+      "priority": 5,
+      "notes": "Acesso dinâmico não foi testado nesta rodada. Se bloqueado, escolher outra referência; não contornar barreiras.",
+      "checked_on": "2026-10-11",
+      "check_method": "not-access-tested"
+    },
+    {
+      "id": "gl-transitions",
+      "title": "GL Transitions — transições shader",
+      "kinds": [
+        "motion"
+      ],
+      "tags": [
+        "shader",
+        "transicao",
+        "transition",
+        "glsl"
+      ],
+      "purpose": "Consultar uma transição específica somente se a função justificar GPU e revisão temporal.",
+      "url": "https://gl-transitions.com/",
+      "domain": "gl-transitions.com",
+      "access": "web+source",
+      "license": "MIT no repositório; conferir item e atribuições",
+      "license_url": "https://raw.githubusercontent.com/gl-transitions/gl-transitions/master/LICENSE",
+      "priority": 4,
+      "notes": "Preferir recurso já suportado pelo HyperFrames. Não copiar um loop requestAnimationFrame independente.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-license-file"
+    },
+    {
+      "id": "paper-shaders",
+      "title": "Paper Shaders — superfícies animadas",
+      "kinds": [
+        "motion",
+        "texture"
+      ],
+      "tags": [
+        "shader",
+        "grain",
+        "papel",
+        "background",
+        "fundo"
+      ],
+      "purpose": "Avaliar um fundo discreto e reconstruir o tempo de forma determinística no runtime.",
+      "url": "https://shaders.paper.design/",
+      "domain": "shaders.paper.design",
+      "access": "web+source",
+      "license": "Apache-2.0 no repositório",
+      "license_url": "https://raw.githubusercontent.com/paper-design/shaders/main/LICENSE",
+      "priority": 4,
+      "notes": "Não adicionar shader só para diferenciar vídeos; requer ganho visual e teste real.",
+      "checked_on": "2026-10-11",
+      "check_method": "primary-license-file"
+    }
+  ]
+}

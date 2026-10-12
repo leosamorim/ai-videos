@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width={{WIDTH}}, height={{HEIGHT}}" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/motion.js"></script>
+    <link rel="stylesheet" href="theme.generated.css" />
+    <script src="editorial.generated.js"></script>
+    <style>
+{{FONT_FACES}}
+{{TOKENS}}
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: {{WIDTH}}px;
+        height: {{HEIGHT}}px;
+        overflow: hidden;
+        background: #000;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: var(--font-family, "Inter"), sans-serif;
+        color: var(--text);
+      }
+      /* A fala. Para reenquadrar (zoom, split, pip), anime #video-wrap; nunca o <video>. */
+      #video-wrap {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: {{WIDTH}}px;
+        height: {{HEIGHT}}px;
+        overflow: hidden;
+      }
+      #video-wrap video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      /* Cada card do storyboard vive num .card-host.clip com posição própria. */
+      .card-host {
+        position: absolute;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      #captions {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="{{DURATION}}"
+      data-fps="{{FPS}}"
+      data-width="{{WIDTH}}"
+      data-height="{{HEIGHT}}"
+    >
+      <!-- CAMADA 1: a fala, já cortada (02-cut/clean.mp4). -->
+      <div id="video-wrap">
+        <video
+          id="a-roll"
+          src="assets/clean.mp4"
+          playsinline
+          data-has-audio="true"
+          data-start="0"
+          data-duration="{{DURATION}}"
+          data-track-index="0"
+        ></video>
+      </div>
+
+      <!-- CAMADA 2: cards explicativos, um por item de 03-plan/storyboard.json. -->
+      <!-- CARDS:START -->
+      <!-- CARDS:END -->
+
+      <!-- CAMADA 3: legendas. Sempre por último, para ficarem por cima. Geradas por `vid captions`. -->
+      <div
+        id="captions"
+        class="clip"
+        data-composition-id="captions"
+        data-composition-src="compositions/captions.html"
+        data-track-kind="captions"
+        data-start="0"
+        data-duration="{{DURATION}}"
+        data-track-index="9"
+        data-width="{{WIDTH}}"
+        data-height="{{HEIGHT}}"
+      ></div>
+    </div>
+    <script>
+      (function () {
+        const tl = gsap.timeline({ paused: true });
+        window.applyEditorialReframes(tl);
+        const beats = window.editorialTimeline;
+
+        // Entrada, saída e animação interna de cada card; movimentos de #video-wrap.
+        // Tempos em segundos na linha do tempo do vídeo cortado (transcript.json).
+
+        tl.set({}, {}, {{DURATION}});
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

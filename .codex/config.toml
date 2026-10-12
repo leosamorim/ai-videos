@@ -1,0 +1,7 @@
+# Configuração do Codex para este repo. Modelo, login e aprovações ficam por conta do usuário.
+# As skills são lidas de .agents/skills/ (links para .claude/skills/).
+project_doc_max_bytes = 65536
+
+[shell_environment_policy]
+# Impede o HyperFrames de instalar skills em ~/.claude/skills e ~/.agents/skills.
+set = { HYPERFRAMES_SKIP_SKILLS = "1" }

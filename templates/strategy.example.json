@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "objective": "education",
+  "business_outcome": "Associar o perfil a explicações úteis de trabalho com planilhas.",
+  "audience": {
+    "who": "Pessoas começando a organizar tabelas",
+    "situation": "Precisam visualizar só algumas linhas sem perder as demais.",
+    "desired_change": "Distinguir filtrar de excluir e reconhecer o resultado na tela."
+  },
+  "promise": "Mostrar que um filtro pode ocultar linhas sem excluí-las.",
+  "payoff": "Demonstração de ativar e remover o filtro, com as linhas originais preservadas.",
+  "hook": {
+    "spoken": "Essas linhas continuam aqui.",
+    "visual": "Tabela filtrada, seguida da indicação do controle de filtro.",
+    "on_screen": "Filtrar sem apagar",
+    "why": "Nomear uma dúvida concreta e prometer uma demonstração verificável."
+  },
+  "evidence": [
+    {
+      "id": "demo",
+      "kind": "footage",
+      "source": "EXEMPLO FICTÍCIO: captura de tela mostrando a mesma tabela antes e depois.",
+      "observation": "Este exemplo só pode ser usado em um projeto real depois de examinar sua demonstração."
+    },
+    {
+      "id": "brief-action",
+      "kind": "brief",
+      "source": "EXEMPLO FICTÍCIO: pedido de formar público para uma série de dicas de planilhas.",
+      "observation": "O objetivo de seguir precisa corresponder a conteúdo recorrente real."
+    }
+  ],
+  "beats": [
+    { "id": "b-hook", "role": "hook", "viewer_need": "Reconhecer que a dúvida é sobre linhas que sumiram.", "decision": "Começar na situação visível, com contexto suficiente para desconhecidos.", "evidence_ids": ["demo"] },
+    { "id": "b-payoff", "role": "payoff", "viewer_need": "Ver que as linhas retornam ao remover o filtro.", "decision": "Manter a demonstração contínua e a área da tabela legível.", "evidence_ids": ["demo"] },
+    { "id": "b-cta", "role": "cta", "viewer_need": "Saber que tipo de conteúdo vem depois.", "decision": "Convite curto junto ao resultado, após resolver a dúvida.", "evidence_ids": ["brief-action"] }
+  ],
+  "cta": { "action": "follow", "copy": "Siga para mais dicas de planilhas.", "why": "Conecta a utilidade entregue ao tema recorrente do perfil." },
+  "platforms": [
+    {
+      "platform": "instagram",
+      "discovery": "Feed; hipótese de audiência iniciante que ainda não conhece o perfil.",
+      "adaptation": "Contextualizar a tabela na abertura e reservar área legível para a demonstração.",
+      "primary_metric": { "name": "salvamentos por alcance", "definition": "Eventos de salvamento divididos por contas alcançadas; proxy de utilidade para consulta.", "denominator": "Contas alcançadas pelo mesmo post, conforme Insights; indisponível se não fornecido.", "window": "Comparar os primeiros sete dias com posts educativos da mesma conta de idade semelhante; janela escolhida para este exemplo." }
+    }
+  ],
+  "assumptions": ["Não há pesquisa de audiência ou métricas neste exemplo; não há estimativa de resultado."],
+  "guardrails": ["Não acelerar a demonstração a ponto de esconder a ação.", "Não apresentar material ilustrativo como teste de uma tabela real."]
+}

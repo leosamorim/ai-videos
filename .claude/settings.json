@@ -1,0 +1,24 @@
+{
+  "env": {
+    "HYPERFRAMES_SKIP_SKILLS": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(node scripts/vid.mjs:*)",
+      "Bash(node scripts/hf.mjs:*)",
+      "Bash(npm run vid:*)",
+      "Bash(npm run hf:*)",
+      "Bash(npm test:*)",
+      "Bash(ffprobe:*)"
+    ],
+    "deny": [
+      "Bash(npx hyperframes skills:*)",
+      "Bash(npx --yes hyperframes skills:*)",
+      "Bash(hyperframes skills:*)",
+      "Bash(npx skills add:*)",
+      "Bash(npx skills remove:*)",
+      "Bash(npx hyperframes publish:*)",
+      "Bash(npx hyperframes cloud:*)"
+    ]
+  }
+}

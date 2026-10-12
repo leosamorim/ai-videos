@@ -1,0 +1,50 @@
+{
+  "source": "https://github.com/heygen-com/hyperframes.git",
+  "ref": "v0.8.145",
+  "commit": "76f8a567a5f4ff7b5b75b0c67c770b7152bf56b6",
+  "license": "Apache-2.0",
+  "skills": {
+    "hyperframes": {
+      "files": 31
+    },
+    "hyperframes-core": {
+      "files": 11
+    },
+    "hyperframes-cli": {
+      "files": 11
+    },
+    "hyperframes-animation": {
+      "files": 122
+    },
+    "hyperframes-creative": {
+      "files": 79
+    },
+    "hyperframes-registry": {
+      "files": 12
+    },
+    "hyperframes-audio": {
+      "files": 8
+    },
+    "hyperframes-keyframes": {
+      "files": 3
+    },
+    "hyperframes-studio": {
+      "files": 1
+    },
+    "media-use": {
+      "files": 110
+    },
+    "talking-head-recut": {
+      "files": 28
+    },
+    "embedded-captions": {
+      "files": 144
+    },
+    "motion-graphics": {
+      "files": 23
+    },
+    "general-video": {
+      "files": 6
+    }
+  }
+}

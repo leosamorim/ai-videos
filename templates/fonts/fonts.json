@@ -1,0 +1,17 @@
+[
+  {
+    "family": "Inter",
+    "file": "inter-latin-400-normal.woff2",
+    "weight": 400
+  },
+  {
+    "family": "Inter",
+    "file": "inter-latin-600-normal.woff2",
+    "weight": 600
+  },
+  {
+    "family": "Inter",
+    "file": "inter-latin-700-normal.woff2",
+    "weight": 700
+  }
+]

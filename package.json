@@ -1,0 +1,37 @@
+{
+  "name": "ai-videos",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Edição audiovisual com agentes: seleção de takes por fala e vídeo, referências, gráficos ancorados e entrega verificada.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "vid": "node scripts/vid.mjs",
+    "hf": "node scripts/hf.mjs",
+    "doctor": "node scripts/vid.mjs doctor",
+    "test": "node --test tests/*.test.mjs",
+    "skills:vendor": "node scripts/vendor-skills.mjs",
+    "skills:sync": "node scripts/sync-agent-skills.mjs",
+    "skills:check": "node scripts/sync-agent-skills.mjs --check",
+    "test:render": "HF_RENDER_SMOKE=1 node --test tests/workflow.test.mjs",
+    "skills:policy": "node scripts/apply-skill-policy.mjs",
+    "syntax:check": "node scripts/check-syntax.mjs",
+    "release:check": "node scripts/release.mjs",
+    "release:export": "node scripts/release.mjs --export",
+    "validate": "npm run syntax:check && npm test && npm run skills:check && npm run release:check"
+  },
+  "devDependencies": {
+    "gsap": "3.15.0",
+    "hyperframes": "0.8.145"
+  },
+  "license": "MIT",
+  "keywords": [
+    "video-editing",
+    "ffmpeg",
+    "hyperframes",
+    "agent-skills",
+    "organic-social"
+  ]
+}
