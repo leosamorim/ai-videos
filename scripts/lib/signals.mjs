@@ -115,8 +115,9 @@ export function readSignals(project) {
       } catch (error) { warnings.push(`${entry.kind}: sinais ignorados (${error.message})`); }
     }
     const summaryPath = join(project.paths.analysis, 'SIGNALS.md');
-    const summaryCurrent = Boolean(!warnings.length && index.summary && digest(index.summary.inputs) === digest(summaryInputs(project)) && existsSync(summaryPath) && index.summary.sha256 === fileHash(summaryPath));
-    return { reports, warnings, summary_current: summaryCurrent };
+    const state = digest({ reports: reports.map((r) => digest(r.input)), warnings });
+    const summaryCurrent = Boolean(index.summary?.signal_state === state && digest(index.summary.inputs) === digest(summaryInputs(project)) && existsSync(summaryPath) && index.summary.sha256 === fileHash(summaryPath));
+    return { reports, warnings, signal_state: state, summary_current: summaryCurrent };
   } catch (error) { return { reports: [], warnings: [`sinais ignorados (${error.message})`] }; }
 }
 
@@ -256,7 +257,8 @@ export function generateSignals(project, { face = false, pose = false, windows =
   const index = { schema: 1, clock: 'source-video', media, duration: info.duration, reports };
   write(path, index);
   summary(project, index);
-  index.summary = { inputs: summaryInputs(project), sha256: fileHash(join(project.paths.analysis, 'SIGNALS.md')) };
+  index.summary = { inputs: summaryInputs(project), signal_state: readSignals(project).signal_state,
+    sha256: fileHash(join(project.paths.analysis, 'SIGNALS.md')) };
   write(path, index);
   console.log(`Signals ${kind}: ${cached ? 'cache íntegro' : 'medido localmente'} → ${relative(ROOT, join(project.paths.analysis, 'SIGNALS.md'))}`);
   return { input, cached: Boolean(cached), report: readJson(destination) };

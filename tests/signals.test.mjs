@@ -156,6 +156,7 @@ test('real models, caches and CLI keep project decisions immutable', { skip: !pr
     write(transcriptPath, { schema: 2, timeline: 'source-video', words: [{ text: 'synthetic', start: 0.4, end: 0.6 }] });
     assert.equal(generateSignals(project).cached, true, 'text changes do not run inference again');
     assert.equal(readSignals(project).reports.some((r) => r.kind === 'face'), false, 'stale semantic proxy requires analyze refresh');
+    assert.equal(readSignals(project).summary_current, true, 'fresh summary can honestly report unavailable old visual measurements');
     assert.equal(fileHash(join(projectDir, 'project.json')), before[0]);
     cli('analyze', slug, '--every', '1', '--signals', 'off');
     assert.match(cli('inspect', slug, '--from', '0.2', '--to', '0.6', '--face'), /Signals face/);
