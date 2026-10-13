@@ -33,7 +33,7 @@ export function resume(args) {
     decisions: read(join(project.dir, 'NOTES.md'), Math.floor(limit * 0.12), true),
     strategy: read(join(project.dir, 'strategy.json'), Math.floor(limit * 0.14)),
     transcript: existsSync(transcript) ? packTranscript(readJson(transcript)).slice(0, Math.floor(limit * 0.28)) : null,
-    consult: ['00-references/direction.md', ...(signals.summary_current ? ['01-analysis/SIGNALS.md'] : []), '02-cut/edit-plan.json', '03-plan/storyboard.json', '06-review/review.json']
+    consult: ['00-references/direction.md', ...(signals.summary_current ? ['01-analysis/SIGNALS.md'] : []), '02-cut/edit-plan.json', '03-plan/storyboard.json', '03-plan/reading.json', '06-review/choreography.json', '06-review/review.json']
       .filter((path) => existsSync(join(project.dir, path))),
     recent_events: (project.data.log ?? []).slice(-3).map(({ at, stage, status, note }) => ({ at, stage, status, ...(note ? { note: String(note).slice(0, 240) } : {}) })),
     note: 'Resumo limitado; consulte os arquivos indicados para decisões completas. Quadros e áudio ainda exigem inspeção. Nenhuma etapa foi alterada.',

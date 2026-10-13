@@ -19,13 +19,21 @@ test('public export contains only engine files, preserves safe links, and reject
     mkdirSync(join(root, '.agents/skills'), { recursive: true });
     symlinkSync('../../.claude/skills/example', join(root, '.agents/skills/example'));
     for (const path of ['videos/client/project.json', '.local/welcome.json', 'brand/fonts/fonts.json', 'output/notes.md', 'library/references/private.md', '.claude/settings.local.json', 'private.mp4', 'docs/RESEARCH-local.md', 'scripts/.env', '.claude/skills/example/assets/sound.mp3']) write(path);
+    const residue = ['scripts/cache.pyc', 'scripts/cache.pyo', 'scripts/edit.mjs~', 'scripts/edit.mjs.swp',
+      'scripts/edit.mjs.swo', 'scripts/draft.tmp', 'scripts/draft.temp', 'scripts/draft.bak',
+      'scripts/change.orig', 'scripts/change.rej', 'tests/coverage/index.html',
+      'scripts/.pytest_cache/README.md', 'scripts/.ruff_cache/report.json'];
+    for (const path of residue) write(path);
     execFileSync('git', ['init', '-q', root]);
     assert.deepEqual(auditPublicRepo(root).errors, []);
+    const ignored = execFileSync('git', ['check-ignore', '--', ...residue], { cwd: root, encoding: 'utf8' }).trim().split('\n');
+    assert.deepEqual(ignored, residue);
     const result = exportPublicRepo(root, out);
     assert.ok(result.files >= 4);
     assert.equal(existsSync(join(out, 'videos')), false);
     assert.equal(existsSync(join(out, 'brand')), false);
     assert.equal(existsSync(join(out, '.local')), false);
+    for (const path of residue) assert.equal(existsSync(join(out, path)), false, path);
     assert.equal(readlinkSync(join(out, '.agents/skills/example')), '../../.claude/skills/example');
     assert.equal(JSON.parse(readFileSync(join(out, '.release-manifest.json'))).files.length, result.files);
     assert.throws(() => exportPublicRepo(root, out), /já existe/);
@@ -33,6 +41,9 @@ test('public export contains only engine files, preserves safe links, and reject
     assert.ok(auditPublicRepo(root).errors.some((e) => e.includes('fora da lista pública')));
     assert.throws(() => exportPublicRepo(root, join(dir, 'blocked')), /fora da lista/);
     assert.equal(existsSync(join(dir, 'blocked')), false);
+    execFileSync('git', ['rm', '--cached', '-f', 'videos/client/project.json'], { cwd: root });
+    execFileSync('git', ['add', '-f', 'tests/coverage/index.html'], { cwd: root });
+    assert.ok(auditPublicRepo(root).errors.some((e) => e.includes('tests/coverage/index.html: candidato Git fora')));
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 

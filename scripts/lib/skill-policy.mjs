@@ -1,6 +1,26 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
+const directionNote = `<!-- REPO_DIRECTION_V1 -->
+> Direção local: leia [coreografia por função](../../../docs/CHOREOGRAPHY.md) quando houver motion, diagramas ou disputa de atenção. O modo é por beat: atuação, explicação ou motion. Cotas estéticas de camadas, focos, curvas, movimentos, novidade por segundo e listas de fontes/estilos banidos são repertório, nunca requisitos. Fala, gesto, leitura, pausa útil e a marca do projeto têm precedência. Fontes locais legíveis (inclusive Inter) são válidas; não buscar outra fonte por proibição genérica. Regras técnicas de render determinístico continuam obrigatórias. Não reinicie o fluxo nem acrescente aprovações.
+`;
+
+function scopeCreativeReferences(dir) {
+  for (const name of ['motion-principles.md', 'beat-direction.md', 'video-composition.md', 'house-style.md', 'typography.md']) {
+    const path = join(dir, 'references', name);
+    if (!existsSync(path)) continue;
+    let content = readFileSync(path, 'utf8');
+    // Qualify upstream advice at the point of retrieval, preserving technical examples.
+    const note = directionNote.replace('../../../docs/', '../../../../docs/');
+    if (content.includes('REPO_DIRECTION_V1')) content = content.replace(/<!-- REPO_DIRECTION_V1 -->\n> [^\n]*\n/, note);
+    else {
+      const end = content.indexOf('\n');
+      content = content.slice(0, end + 1) + '\n' + note + '\n' + content.slice(end + 1);
+    }
+    writeFileSync(path, content);
+  }
+}
+
 export function applyRepositoryPolicy(dir, name) {
   const path = join(dir, 'SKILL.md');
   if (!existsSync(path)) return;
@@ -26,6 +46,14 @@ export function applyRepositoryPolicy(dir, name) {
     text = text.slice(0, end) + '\n\n<!-- REPO_DOMAIN_V2 -->\n> Neste repo, `video-edit` coordena o fluxo e `AGENTS.md` define os contratos. Esta skill fornece capacidade técnica. Consuma o corte, a transcrição, o tema e o storyboard existentes; não reinicie briefing/transcrição, não instale/atualize skills globais e não imponha aprovações extras. Use `node scripts/hf.mjs` para o CLI fixado.\n' + text.slice(end);
   }
   text = text.replaceAll('--model small.en', '--language pt');
+  if (['hyperframes-creative', 'hyperframes-animation', 'motion-graphics', 'general-video'].includes(name)) {
+    if (text.includes('REPO_DIRECTION_V1')) text = text.replace(/<!-- REPO_DIRECTION_V1 -->\n> [^\n]*\n/, directionNote);
+    else {
+      const end = text.indexOf('\n---', 3) + 4;
+      text = text.slice(0, end) + '\n\n' + directionNote + text.slice(end);
+    }
+  }
+  if (name === 'hyperframes-creative') scopeCreativeReferences(dir);
   if (['hyperframes-audio', 'media-use'].includes(name) && !text.includes('REPO_SPEECH_CLEANUP_V1')) {
     const end = text.indexOf('\n---', 3) + 4;
     text = text.slice(0, end) + '\n\n<!-- REPO_SPEECH_CLEANUP_V1 -->\n> Para limpar fala gravada neste repo, consulte [docs/AUDIO.md](../../../docs/AUDIO.md): DeepFilterNet3 é a preferência inicial quando há ruído, com tratamento moderado, relógio preservado e A/B em volume equivalente. Limpe a voz antes de música/SFX, use um asset de áudio separado sem sobrescrever master/proxy e registre escuta versus métricas. É pré-processamento opcional; não existe comando `vid denoise` nem nova aprovação obrigatória.\n' + text.slice(end);

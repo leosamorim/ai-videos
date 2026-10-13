@@ -75,7 +75,7 @@ O MediaPipe usa o proxy SDR validado do `analyze`, modo VIDEO síncrono e timest
 
 ## Limites e validação
 
-Os ensaios locais que motivaram a integração usaram três gravações do mesmo contexto. VAD foi barato e ajudou a distinguir parte da energia de ruído; encurtar automaticamente por VAD também retirou tempo útil de ação/fechamento. Regras fixas de ângulo marcaram fala expressiva como problema. Pose funcionou tecnicamente, mas o ganho editorial adicional não foi estabelecido. Não são métricas de precisão para outros apresentadores ou ambientes.
+VAD mede atividade de fala; encurtar automaticamente por seus limites pode retirar tempo útil de ação/fechamento. Regras fixas de ângulo podem marcar fala expressiva como problema. O funcionamento técnico de pose não comprova ganho editorial. A integração não estabelece métricas de precisão para outros apresentadores ou ambientes; valide as sugestões com evidência audiovisual do projeto.
 
 Por isso não há regra “sem fala → remover”, “olhou para baixo → cortar”, escore de careta ou limiar universal de velocidade. Probabilidade vocal alta não prova que o take serve ao objetivo. Falha de detecção pode ser enquadramento, oclusão ou erro do modelo. Sem aviso também não significa corte seguro. As limitações de reprodução/escuta devem constar na revisão.
 

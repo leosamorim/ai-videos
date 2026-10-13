@@ -8,11 +8,13 @@ const TOP_FILES = new Set(['README.md', 'AGENTS.md', 'CLAUDE.md', 'LICENSE', 'TH
   '.gitignore', '.gitattributes', '.editorconfig', '.env.example', '.release-manifest.json']);
 const ROOTS = ['scripts', 'tests', 'templates', 'docs', 'vendor', '.github', '.claude/skills', '.agents/skills'];
 const EXTRAS = ['library/SOURCES.md', 'library/sources.json', 'library/references/README.md', '.claude/settings.json', '.codex/config.toml'];
+const GENERATED_DIR = /(^|\/)(node_modules|__pycache__|\.cache|\.pytest_cache|\.ruff_cache|coverage)(\/|$)/;
 export function isPublicPath(path) {
   if (path.includes('\\') || path.split('/').some((p) => p === '..' || p === '.')) return false;
   if (TOP_FILES.has(path) || EXTRAS.includes(path)) return true;
   if (!ROOTS.some((dir) => path.startsWith(dir + '/'))) return false;
-  if (/(^|\/)(node_modules|__pycache__|\.cache|\.env(?:\.[^/]*)?)(\/|$)/.test(path)) return false;
+  if (GENERATED_DIR.test(path) || /(^|\/)\.env(?:\.[^/]*)?(\/|$)/.test(path)) return false;
+  if (/(?:\.(?:tmp|temp|bak|orig|rej|swp|swo|pyo)|~)$/.test(path)) return false;
   if (/^docs\/(?:RESEARCH-|private\/)/.test(path)) return false;
   if (/\.(?:mp4|mov|mkv|webm|wav|mp3|aac|m4a|flac|png|jpe?g|webp|gif|log|pyc)$/i.test(path)) return false;
   if (/\.woff2?$/.test(path) && !/^templates\/fonts\/inter-latin-(400|600|700)-normal\.woff2$/.test(path)) return false;
@@ -28,7 +30,7 @@ export function publicFiles(root) {
     const stat = lstatSync(full, { throwIfNoEntry: false });
     if (!stat) return;
     if (stat.isDirectory()) {
-      if (/(^|\/)(node_modules|__pycache__|\.cache)$/.test(path)) return;
+      if (GENERATED_DIR.test(path)) return;
       for (const name of readdirSync(full).sort()) walk(`${path}/${name}`);
     } else if (isPublicPath(path)) files.push(path);
   }

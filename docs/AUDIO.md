@@ -1,6 +1,6 @@
 # Limpeza de fala e preservação da voz
 
-Quando houver ruído que prejudique a fala, **DeepFilterNet3 é a primeira opção de limpeza local deste repo**. A preferência foi confirmada pelo mantenedor em escuta comparativa, além das verificações técnicas. Priorize naturalidade, inteligibilidade e integridade das palavras; diferenças de poucos segundos de processamento têm peso secundário.
+Quando houver ruído que prejudique a fala, **DeepFilterNet3 é a primeira opção de limpeza local deste repo**. O perfil abaixo oferece um ponto de partida reproduzível, sujeito a comparação com o original em cada projeto. Priorize naturalidade, inteligibilidade e integridade das palavras; diferenças de poucos segundos de processamento têm peso secundário.
 
 É um ponto de partida para novas edições, não uma afirmação de superioridade em toda gravação. Mantenha o original se a limpeza não ajudar. Respeite outra escolha explícita do usuário. Uma preferência anterior não aprova automaticamente o áudio de outro projeto.
 
@@ -24,7 +24,7 @@ Perfil inicial validado: **DeepFilterNet3, PCM 48 kHz, limite de atenuação de 
 4. Compare original/tratado com ganho constante para volume equivalente e folga de pico. Aumentar volume pode mascarar uma piora de timbre. Preserve o controle sem limpeza para reverter a escolha.
 5. Adicione música e SFX depois da limpeza. Confira equilíbrio e faça a masterização final pelo fluxo normal. Não passe o mix completo pelo denoiser nem empilhe modelos de limpeza por padrão.
 
-Tratar os trechos selecionados evitou processar a maior parte do bruto no teste local, sem vantagem clara que justificasse a gravação inteira. Se muitos vídeos reutilizam quase toda a fonte, considere um derivado integral em cache. Avalie por projeto; não prometa um percentual universal de economia.
+Tratar os trechos selecionados reduz o volume processado quando o corte usa apenas parte do bruto. Se muitos vídeos reutilizam quase toda a fonte, considere um derivado integral em cache. Avalie por projeto; não prometa um percentual universal de economia.
 
 ## Execução local e relógio
 

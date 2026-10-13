@@ -9,6 +9,8 @@ import { fileHash, stageSignature } from '../lib/fingerprint.mjs';
 import { compileStoryboard, DEFAULT_THEME, reframeScript, themeCss } from '../lib/storyboard.mjs';
 import { HYPERFRAMES, ROOT, fail, parseArgs, readJson } from '../lib/util.mjs';
 import { probe } from '../lib/media.mjs';
+import { auditGraphicReading, syncSoundCueMarkup } from '../lib/choreography.mjs';
+import { inspectSoundCues } from '../lib/sound-cues.mjs';
 
 function requireCut(project) {
   const edlPath = join(project.paths.cut, 'edl.json');
@@ -152,6 +154,8 @@ export function compose(args) {
 
   writeFileSync(join(dir, 'theme.generated.css'), themeCss(theme, format));
   writeFileSync(join(dir, 'editorial.generated.js'), `window.editorialTimeline = ${JSON.stringify(board)};\n` + reframeScript(board));
+  inspectSoundCues(board, dir);
+  writeFileSync(index, syncSoundCueMarkup(readFileSync(index, 'utf8'), board));
   const blocks = writeCaptions(project, cut, board);
   setStage(project, 'composition', 'in-progress');
   console.log(`Composição pronta em ${rel(dir)} (${blocks} blocos de legenda).`);
@@ -171,6 +175,18 @@ export function captions(args) {
 export function check(args) {
   const project = loadProject(args[0]);
   assertCurrent(project);
+  const cut = requireCut(project);
+  const board = compileStoryboard(readJson(join(project.paths.plan, 'storyboard.json')), cut.transcript.words, cut.edl.edited_duration);
+  const html = readFileSync(join(project.paths.composition, 'index.html'), 'utf8');
+  if (syncSoundCueMarkup(html, board) !== html) fail('cues de som desatualizados; rode compose para sincronizar EVENT-SOUNDS');
+  const cues = inspectSoundCues(board, project.paths.composition);
+  const reading = auditGraphicReading(board);
+  mkdirSync(project.paths.review, { recursive: true });
+  writeFileSync(join(project.paths.review, 'choreography.json'), JSON.stringify({
+    ...reading, storyboard_sha256: fileHash(join(project.paths.plan, 'storyboard.json')),
+    composition_signature: stageSignature(project, 'composition'), sound_cues: cues,
+  }, null, 2) + '\n');
+  if (reading.status === 'needs-review') console.log('Leitura gráfica: revise os avisos em 06-review/choreography.json; o check técnico não aprova legibilidade.');
   const result = hyperframes(['check', project.paths.composition, ...args.slice(1).filter((a) => a !== '--verbose')], {
     logPath: args.includes('--verbose') ? undefined : join(project.paths.review, 'hyperframes-check.log'),
   });

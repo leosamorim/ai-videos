@@ -1,5 +1,9 @@
 # Motion Principles
 
+<!-- REPO_DIRECTION_V1 -->
+> Direção local: leia [coreografia por função](../../../../docs/CHOREOGRAPHY.md) quando houver motion, diagramas ou disputa de atenção. O modo é por beat: atuação, explicação ou motion. Cotas estéticas de camadas, focos, curvas, movimentos, novidade por segundo e listas de fontes/estilos banidos são repertório, nunca requisitos. Fala, gesto, leitura, pausa útil e a marca do projeto têm precedência. Fontes locais legíveis (inclusive Inter) são válidas; não buscar outra fonte por proibição genérica. Regras técnicas de render determinístico continuam obrigatórias. Não reinicie o fluxo nem acrescente aprovações.
+
+
 ## Contents
 
 - Guardrails

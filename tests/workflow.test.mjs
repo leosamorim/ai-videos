@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { createServer } from 'node:http';
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { ROOT } from '../scripts/lib/util.mjs';
@@ -84,8 +84,18 @@ test('CLI flow joins evidence, references, selections, anchored graphics and sta
     cli('plan', slug, '--init');
     const board = read('03-plan/storyboard.json'); board.intent = 'integration fixture';
     board.reframes = [{ id: 'closer', purpose: 'inspect subject', anchor: { source_word: 0, duration: 1 }, scale: 1.1 }];
+    board.events = [{ id: 'fixture-contact', purpose: 'synthetic visible contact', time: 1.5 }];
+    board.sound_cues = [{ id: 'fixture-click', event_id: 'fixture-contact', asset: 'assets/fixture-click.wav', attack: 0.1, duration: 0.35, volume: 0.8 }];
+    mkdirSync(join(dir, '04-composition/assets'), { recursive: true });
+    execFileSync('ffmpeg', ['-v', 'error', '-f', 'lavfi', '-i', 'sine=frequency=3000:duration=0.08:sample_rate=48000', '-af', 'adelay=100,apad=whole_dur=0.35', '-c:a', 'pcm_s16le', join(dir, '04-composition/assets/fixture-click.wav')]);
     write('03-plan/storyboard.json', board);
     cli('plan', slug);
+    cli('compose', slug);
+    assert.equal(read('03-plan/reading.json').status, 'not-checked');
+    assert.equal((readFileSync(join(dir, '04-composition/index.html'), 'utf8').match(/id="sfx-fixture-click"/g) ?? []).length, 1);
+    const composedPath = join(dir, '04-composition/index.html');
+    writeFileSync(composedPath, readFileSync(composedPath, 'utf8').replace(/(<audio id="sfx-fixture-click"[^>]*data-start=")[^"]+/, (_, prefix) => prefix + '1.2'));
+    assert.throws(() => cli('check', slug), /cues de som desatualizados/);
     cli('compose', slug);
     assert.equal(read('04-composition/metadata.json').media_tier, 'master');
     cli('compose', slug, '--media', 'proxy');
@@ -105,7 +115,7 @@ test('CLI flow joins evidence, references, selections, anchored graphics and sta
     assert.equal(read('project.json').stages.plan, 'pending');
     assert.throws(() => cli('plan', slug), /sem tempo no storyboard/);
     board.beats = [
-      { id: 'b-hook', purpose: 'Synthetic opening', anchor: { source_word: 0, duration: 1 } },
+      { id: 'b-hook', purpose: 'Synthetic opening', anchor: { source_word: 0, duration: 1 }, reads: [{ id: 'label', text: 'Synthetic', from: 0.3, to: 0.8, min_hold: 1 }] },
       { id: 'b-payoff', purpose: 'Synthetic payoff', anchor: { source_word: 1, duration: 1 } },
     ];
     board.reframes[0].beat_id = 'b-hook';
@@ -126,11 +136,11 @@ test('CLI flow joins evidence, references, selections, anchored graphics and sta
           <span id="fixture-done" style="position:absolute;left:25px;top:20px;opacity:0">Seguindo</span>
           <svg id="fixture-cursor" viewBox="0 0 24 24" style="position:absolute;left:300px;top:75px;width:48px;height:48px;opacity:0"><path d="M3 2 L20 13 L12 14 L9 22 Z" fill="white" stroke="black" stroke-width="1.5" /></svg>
         </div>
-        <svg style="position:absolute;left:100px;top:300px;width:400px;height:60px"><path id="fixture-line" d="M10 30 L380 30" fill="none" stroke="#fafafa" stroke-width="5" pathLength="1" /></svg>`);
+        <svg style="position:absolute;left:100px;top:300px;width:400px;height:60px"><rect width="400" height="60" fill="black"/><path id="fixture-line" d="M10 30 L380 30" fill="none" stroke="#fafafa" stroke-width="5" pathLength="1" /></svg>`);
       html = html.replace('window.applyEditorialReframes(tl);', `window.applyEditorialReframes(tl);
         VidMotion.enter(tl, '#fixture-button', {id:'fixture-entry',start:0.1,duration:0.3});
         VidMotion.draw(tl, '#fixture-line', {id:'fixture-draw',start:0.2,duration:0.6,length:1});
-        VidMotion.click(tl, {button:'#fixture-button',cursor:'#fixture-cursor',label:'#fixture-label',doneLabel:'#fixture-done'}, {id:'fixture-click',start:1,duration:1});`);
+        VidMotion.click(tl, {button:'#fixture-button',cursor:'#fixture-cursor',label:'#fixture-label',doneLabel:'#fixture-done'}, {id:'fixture-click',hit:window.editorialTimeline.events.find(e=>e.id==='fixture-contact').time,duration:1});`);
       writeFileSync(index, html);
       write('04-composition/motion-plan.json', { motions: [
         { id: 'fixture-entry', start: 0.1, end: 0.4 }, { id: 'fixture-draw', start: 0.2, end: 0.8 },
@@ -138,12 +148,36 @@ test('CLI flow joins evidence, references, selections, anchored graphics and sta
       ] });
       cli('compose', slug, '--media', 'proxy');
       console.log(cli('check', slug));
+      const choreography = read('06-review/choreography.json');
+      assert.equal(choreography.sound_cues[0].hit, 1.5);
+      assert.equal(choreography.sound_cues[0].asset_sha256, fileHash(join(dir, '04-composition/assets/fixture-click.wav')));
+      assert.equal(choreography.blocks[0].status, 'needs-review');
       console.log(cli('render', slug, '--quality', 'draft', '--workers', '1'));
       assert.equal(read('project.json').renders.at(-1).media_tier, 'proxy');
       assert.throws(() => cli('finalize', slug, '--force'), /master/);
       cli('compose', slug, '--media', 'master');
       console.log(cli('check', slug));
       console.log(cli('render', slug, '--quality', 'looks', '--workers', '1'));
+      // Decode the actual master render: the normalized stroke must grow, and the
+      // distinct 3 kHz cue must start at the shared contact (not at the file start).
+      const rendered = join(dir, read('project.json').renders.at(-1).file);
+      const whites = [0.4, 0.5, 0.6].map((time) => {
+        const pixels = execFileSync('ffmpeg', ['-v', 'error', '-ss', String(time), '-i', rendered, '-frames:v', '1', '-vf', 'crop=400:60:100:300,format=gray', '-f', 'rawvideo', '-']);
+        return [...pixels].filter((v) => v > 220).length;
+      });
+      assert.ok(whites[0] > 0 && whites[0] < whites[1] && whites[1] < whites[2], `stroke progression ${whites}`);
+      // Two highpasses reject the underlying 440 Hz fixture tone sufficiently.
+      const pcm = execFileSync('ffmpeg', ['-v', 'error', '-i', rendered, '-vn', '-af', 'highpass=f=2500,highpass=f=2500,lowpass=f=3500', '-ar', '48000', '-ac', '1', '-f', 'f32le', '-']);
+      const rms = (from, to) => {
+        let sum = 0;
+        const start = Math.round(from * 48000), end = Math.round(to * 48000);
+        for (let i = start; i < end; i++) sum += pcm.readFloatLE(i * 4) ** 2;
+        return Math.sqrt(sum / (end - start));
+      };
+      const levels = [rms(1.43, 1.47), rms(1.52, 1.56), rms(1.65, 1.7)];
+      assert.ok(levels[0] < 0.002, `no attack at the start of the file: ${levels}`);
+      assert.ok(levels[1] > 0.008, `attack at the visual contact: ${levels}`);
+      assert.ok(levels[2] < 0.002, `cue ends without a second/repeated attack: ${levels}`);
       console.log(cli('verify', slug));
       cli('review', slug);
       const review = read('06-review/review.json');
@@ -170,6 +204,16 @@ test('CLI flow joins evidence, references, selections, anchored graphics and sta
       cli('status', slug);
       assert.equal(read('project.json').stages.final, 'done', 'analytics notes must not invalidate the export');
     }
+    board.events[0].time = 1.6;
+    board.beats[0].reads[0].text = 'Revised synthetic label';
+    write('03-plan/storyboard.json', board);
+    cli('status', slug);
+    assert.equal(read('project.json').stages.plan, 'pending');
+    assert.throws(() => cli('render', slug), /corte\/storyboard|desatualizado/);
+    cli('plan', slug);
+    cli('compose', slug);
+    assert.equal(read('03-plan/reading.json').blocks[0].text, 'Revised synthetic label');
+    assert.equal(read('03-plan/resolved.json').sound_cues[0].hit, 1.6);
     writeFileSync(join(dir, 'theme.json'), JSON.stringify({ ...read('theme.json'), name: 'changed reference direction' }));
     cli('status', slug);
     assert.equal(read('project.json').stages.composition, 'pending');

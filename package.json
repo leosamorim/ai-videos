@@ -4,6 +4,14 @@
   "private": true,
   "type": "module",
   "description": "Edição audiovisual com agentes: seleção de takes por fala e vídeo, referências, gráficos ancorados e entrega verificada.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leosamorim/ai-videos.git"
+  },
+  "homepage": "https://github.com/leosamorim/ai-videos#readme",
+  "bugs": {
+    "url": "https://github.com/leosamorim/ai-videos/issues"
+  },
   "engines": {
     "node": ">=22"
   },
@@ -15,7 +23,7 @@
     "skills:vendor": "node scripts/vendor-skills.mjs",
     "skills:sync": "node scripts/sync-agent-skills.mjs",
     "skills:check": "node scripts/sync-agent-skills.mjs --check",
-    "test:render": "HF_RENDER_SMOKE=1 node --test tests/workflow.test.mjs",
+    "test:render": "node scripts/hf.mjs browser ensure && HF_RENDER_SMOKE=1 node --test tests/workflow.test.mjs tests/motion-browser.test.mjs",
     "skills:policy": "node scripts/apply-skill-policy.mjs",
     "syntax:check": "node scripts/check-syntax.mjs",
     "release:check": "node scripts/release.mjs",

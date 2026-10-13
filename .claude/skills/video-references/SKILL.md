@@ -20,6 +20,8 @@ Write `00-references/direction.json`: reviewed, theme, audience, visual_decision
 
 For marketing-directed edits, pass observations into `video-strategy`: distinguish a brand's positioning from evidence of audience demand. For editing references, also identify the promise, proof, payoff and intended action. A popular reference provides creative hypotheses; without comparable audience/distribution data, its editing style does not establish why it performed well.
 
+Route by the actual material: motion-only catalogs (including Awesome AI Motion, which excludes real-person protagonists) inform diagrams/typography and coded motion, not performance cut decisions. Use the selected grammar/technique, not the whole repo or demo's style. Read [choreography](../../../docs/CHOREOGRAPHY.md) when adapting attention order, persistent comparisons or shared sound events; prototype only the uncertain part and verify the original example's inspection/rights limits.
+
 Sites requiring scripts/login may yield incomplete extraction. Use an available browser to inspect the supplied page; save a local screenshot through the browser when supported and register it. Do not claim the page was visually reviewed from extracted text. Documents/images/reference clips remain supported even without any external API.
 
 If access fails, use an accessible alternative before asking the user to download something. Do not bypass login or repeatedly retry a blocked endpoint. Ask for the specific material only if it is essential. A source route, stale cache or thumbnail cannot be described as a watched reference.

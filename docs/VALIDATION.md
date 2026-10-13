@@ -1,5 +1,30 @@
 # Verificação da versão 0.2.0
 
+## Organização do repositório e distribuição — 2026-10-13
+
+O clone oficial passa a ser a origem documentada de instalação, atualização e contribuição. Git e export excluem temporários de editor, bytecode, cobertura e caches de ferramentas; o teste de distribuição confere a exclusão dos arquivos e rejeita resíduos adicionados à força no índice.
+
+`npm run validate`: 71 testes aprovados, 2 integrações opcionais omitidas, sintaxe JavaScript/Python válida, 20 skills sincronizadas e 662 arquivos públicos sem problemas. `npm run test:render`: 3 testes aprovados com Chromium/HyperFrames e mídia sintética. Um export em diretório temporário passou por `npm ci` e `npm run validate` sem projetos, marca ou mídia privada; a pasta temporária foi removida após a checagem. Métricas de casos privados não integram este relatório.
+
+## Direção, leitura e eventos compartilhados — 2026-10-13
+
+`npm run validate`: 71 testes aprovados, 2 integrações opcionais omitidas (browser/render e modelos locais), 59 arquivos JavaScript e 1 Python com sintaxe válida; 20 skills sincronizadas e auditoria de 662 arquivos públicos sem problemas. As sete skills alteradas passaram no validador de estrutura.
+
+`npm run test:render`: 3 testes aprovados, incluindo browser real e fluxo HyperFrames completo com proxy/draft, master/looks, verify, revisão sintética, diff e finalize. A cópia pública foi exportada para diretório temporário, instalada com `npm ci` e aprovada nos mesmos comandos, sem projetos, marca ou mídia privada. O export inclui um manifesto adicional; não foi feito push nesta alteração.
+
+Cobertura acrescentada:
+
+- Âncoras movem evento, ataque do som e janelas de leitura juntos; palavras removidas/repetidas, IDs conflitantes, vínculos ausentes e limites inválidos falham cedo. Antecipação sonora explícita permanece possível.
+- Áudio gerenciado não se duplica ao repetir `compose`; seu bloco é atualizado/removido preservando conteúdo autoral. `check` rejeita alteração manual dos tempos. FFprobe confere duração/áudio real; hashes identificam assets; links para fora da pasta de assets são recusados.
+- Leitura usa a janela declarada de estabilidade, mostra estados distintos e identifica cards não avaliados. Alterar texto/evento invalida o plano e derivados; nova compilação usa os novos dados. Avisos não impedem render nem aprovam percepção.
+- SVG normalizado tem poses intermediárias contínuas. Nove instantes não cronológicos, incluindo zero, bordas, contato e fim, foram comparados por estado DOM e pixels com páginas novas. Esse teste revelou e permitiu corrigir diferenças de inicialização em zero.
+- No MP4 master sintético, pixels do traço aumentam em três quadros intermediários. O áudio decodificado separa um cue de 3 kHz do tom de fundo: ausência antes do ataque, presença no contato compartilhado e fim sem repetição. É teste de sincronismo por sinal, sem alegação de escuta.
+- A política de direção reaplica-se após reposição do material vendor e é idempotente; exemplos técnicos são preservados. As novas rotas de fontes passam pela validação do catálogo existente.
+
+Os campos são opcionais e não exigem migração de projetos existentes. Os testes comprovam contratos técnicos, não superioridade artística ou desempenho de marketing. O relatório de leitura depende de declarações e não detecta oclusão, contraste ou texto realmente concluído nos pixels.
+
+## Base da versão
+
 Executada localmente em 2026-10-12, no Linux, com FFmpeg n9.0.1, HyperFrames 0.8.145 e GSAP 3.15.0.
 
 | Verificação | Resultado |
@@ -16,7 +41,7 @@ Executada localmente em 2026-10-12, no Linux, com FFmpeg n9.0.1, HyperFrames 0.8
 
 O teste de render inclui entrada, traço, aproximação e clique. Os testes GSAP verificam poses intermediárias e seeks em ambos os sentidos. O diff é exercitado com mudanças reais em dois quadros, mudança somente de áudio e incompatibilidade de tempo/cor. A correção de palavras exige nova validação editorial mesmo quando o master pode ser reutilizado.
 
-Os testes usam observações sintéticas para exercitar os contratos de revisão. Não comprovam qualidade artística, resultado de marketing ou percentual de economia na assinatura. Não foi feita nova edição de material do usuário como parte dessa implementação. A configuração de CI foi incluída; sua execução no GitHub ocorrerá após publicar o repositório.
+Os testes usam observações sintéticas para exercitar os contratos de revisão. Não comprovam qualidade artística, resultado de marketing ou percentual de economia na assinatura. Não foi feita nova edição de material do usuário como parte dessa implementação. A configuração de CI foi incluída nessa etapa; as execuções públicas ficam em [GitHub Actions](https://github.com/leosamorim/ai-videos/actions).
 
 ## Adição da orientação de primeiro uso
 
@@ -40,6 +65,4 @@ O runtime foi instalado em venv separado pelo próprio `signals setup --pose`, u
 
 O teste de relógio usa pulsos PCM sintéticos com offsets positivo e negativo e verifica a amostra exata. Os testes rejeitam relatórios fora do relógio/cobertura, fonte alterada, bytes corrompidos e resumo antigo após mudança do plano. Atividade breve permanece no resumo VAD; orientação da cabeça não gera julgamento de atuação; variações visuais não atravessam janelas sem amostragem.
 
-Também foi executada uma checagem privada em três gravações previamente ensaiadas, totalizando 848,822 s. A nova CLI levou cerca de **4,65 s** para medir todo o áudio e **17,50 s** para rosto + pose em 12 janelas, com 531 amostras visuais a 5 fps, usando proxies SDR já existentes. Esses tempos incluem preparação/CLI local e variam com hardware/cache; não incluem criação dos proxies. O VAD coincidiu com o ensaio anterior até o arredondamento de seis casas (diferença máxima inferior a 0,0000005). O cache devolveu as mesmas amostras. Hashes dos brutos, transcrições, planos e manifestos dos projetos originais permaneceram iguais.
-
-Os artefatos privados ficaram fora do Git/export. Essa checagem avaliou integração e medições, sem nova escuta ou avaliação contínua dos vídeos. Não estabelece precisão de detecção de erros, superioridade editorial nem aprovação dos cortes. Sinais continuam auxiliares ao julgamento audiovisual.
+Benchmarks de gravações privadas e suas métricas permanecem locais. A validação distribuída usa mídia sintética e não estabelece precisão de detecção de erros, superioridade editorial nem aprovação dos cortes. Sinais continuam auxiliares ao julgamento audiovisual.

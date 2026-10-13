@@ -5,6 +5,7 @@ import { fileHash } from '../lib/fingerprint.mjs';
 import { finishStage, loadProject, rel } from '../lib/project.mjs';
 import { fail, parseArgs, readJson } from '../lib/util.mjs';
 import { validateStrategyBoard } from '../lib/strategy.mjs';
+import { auditGraphicReading } from '../lib/choreography.mjs';
 
 export function plan(args) {
   const { flags, positional } = parseArgs(args, { booleans: ['init'] });
@@ -36,6 +37,10 @@ export function plan(args) {
   }
   compiled.edl_sha256 = fileHash(join(project.paths.cut, 'edl.json'));
   writeFileSync(join(project.paths.plan, 'resolved.json'), JSON.stringify(compiled, null, 2) + '\n');
+  const reading = auditGraphicReading(compiled);
+  writeFileSync(join(project.paths.plan, 'reading.json'), JSON.stringify({ ...reading, storyboard_sha256: fileHash(path) }, null, 2) + '\n');
   finishStage(project, 'plan', 'âncoras e tema validados; produzir prévia antes do acabamento');
   console.log(`Storyboard compilado: ${rel(join(project.paths.plan, 'resolved.json'))}`);
+  const warnings = reading.blocks.filter((b) => b.warnings.length).length;
+  if (warnings) console.log(`Leitura: ${warnings} janela(s) para revisar em 03-plan/reading.json (avisos, sem aprovação automática).`);
 }
