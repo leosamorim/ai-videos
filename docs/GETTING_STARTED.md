@@ -17,9 +17,11 @@ A apresentação não exige confirmação nem repete informações já fornecida
 
 O ambiente de referência é Linux. Para Windows, use WSL2 com suporte a links simbólicos. macOS não tem cobertura automatizada nesta versão.
 
-Na pasta clonada ou extraída:
+Clone o [repositório oficial](https://github.com/leosamorim/ai-videos) e instale na própria pasta de trabalho:
 
 ```bash
+git clone https://github.com/leosamorim/ai-videos.git
+cd ai-videos
 HYPERFRAMES_SKIP_SKILLS=1 npm ci
 npm run skills:sync
 npm run validate
@@ -32,6 +34,21 @@ npm run doctor
 O `doctor` do mecanismo verifica as dependências e a disponibilidade de ASR. Não instale skills globais por meio do CLI. O reconhecimento padrão usa a configuração de idioma do projeto; português não deve cair em um modelo `.en`. Consulte as opções da versão instalada antes de trocar engine/modelo.
 
 Não é necessário criar `brand/`. Inter e uma aparência genérica estão incluídos. Para uma identidade própria, consulte [BRANDS.md](BRANDS.md).
+
+## Atualizar o mecanismo
+
+Na branch `main`, confira `git status` e conclua ou guarde alterações de código antes de atualizar:
+
+```bash
+git pull --ff-only origin main
+HYPERFRAMES_SKIP_SKILLS=1 npm ci
+npm run skills:sync
+npm run validate
+```
+
+Se o Git apontar divergência, resolva as alterações pela branch de trabalho antes de continuar. Não use `reset --hard` ou `git clean -fdx` como limpeza: eles podem apagar trabalho local, inclusive projetos e mídia ignorados. A atualização do mecanismo não exige apagar `videos/`, `brand/`, `library/references/` ou os caches de produção.
+
+`dist/` é saída de exportação, não instalação nem checkout alternativo. Depois de conferir um export, descarte somente aquela pasta gerada. As skills de `.agents/skills/` são links para `.claude/skills/`; mantenha essa origem única.
 
 ## Exemplo de uso
 

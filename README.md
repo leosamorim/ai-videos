@@ -4,6 +4,8 @@ Mecanismo local de edição audiovisual assistida por agentes, com FFmpeg e Hype
 
 O repositório distribui **somente o mecanismo**. Gravações, marcas, briefings, transcrições, referências pessoais e renders permanecem locais.
 
+A versão mantida está em [leosamorim/ai-videos](https://github.com/leosamorim/ai-videos), na branch `main`. Use o clone como pasta de trabalho; `dist/` contém apenas exportações descartáveis para verificar a distribuição.
+
 ## Capacidades
 
 - Seleção e reordenação de takes com evidências audiovisuais, proteção de palavras e preservação de demonstrações úteis.
@@ -23,6 +25,8 @@ Abra este repo no Claude Code ou Codex e peça uma edição. Se ainda não houve
 Requisitos: Node.js ≥22, FFmpeg/ffprobe ≥6 e ambiente Chromium compatível com o HyperFrames. Linux é o ambiente de referência; use WSL2 no Windows.
 
 ```bash
+git clone https://github.com/leosamorim/ai-videos.git
+cd ai-videos
 HYPERFRAMES_SKIP_SKILLS=1 npm ci
 npm run skills:sync
 npm run validate
@@ -59,6 +63,7 @@ Para revisões, `vid resume` evita recarregar todo o histórico. `compose --medi
 | Limpeza de fala: preferência por DeepFilterNet3, integração opcional e revisão | [Áudio](docs/AUDIO.md) |
 | Fontes de consulta autônoma | [Biblioteca](library/SOURCES.md) |
 | Composição e movimentos | [Técnicas](docs/COMPOSITION.md), [componentes](docs/COMPONENTS.md) |
+| Direção de motion e explicações | [Coreografia, eventos de som e tempo útil de leitura](docs/CHOREOGRAPHY.md) |
 | Estilos locais | [Marcas](docs/BRANDS.md) |
 | Revisão e limites de verificação | [Qualidade](docs/QUALITY.md) |
 | Publicação sem material privado | [Privacidade](docs/PRIVACY.md) |
@@ -74,6 +79,8 @@ npm run release:export
 ```
 
 Os testes usam fontes sintéticas. O teste de render exige Chromium e exercita o caminho HyperFrames real. `release:export` gera `dist/github-ready/`, sem histórico Git ou projetos privados, e recusa sobrescrever uma pasta existente. Nenhum comando acima faz push.
+
+Para atualizar um clone existente, siga [Atualizar o mecanismo](docs/GETTING_STARTED.md#atualizar-o-mecanismo). Contribuições são feitas no clone, por branch e pull request; não mantenha uma segunda versão editável em `dist/`.
 
 Leia [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), [SUPPORT.md](SUPPORT.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) e [CHANGELOG.md](CHANGELOG.md).
 

@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ROOT, fail } from './util.mjs';
+import { compileChoreography } from './choreography.mjs';
 
 /** Famílias com arquivo local declarado em brand/fonts/fonts.json. */
 export function localFontFamilies() {
@@ -32,7 +33,7 @@ export function compileStoryboard(board, words, duration) {
   const result = { ...board, duration, beats: (board.beats ?? []).map(compile), cards: (board.cards ?? []).map(compile), reframes: (board.reframes ?? []).map(compile), caption_zones: (board.caption_zones ?? []).map(compile) };
   for (const r of result.reframes) if (!(r.scale >= 1 && r.scale <= 3) || ![r.x ?? 0, r.y ?? 0].every(Number.isFinite)) fail(`${r.id}: reframe precisa de scale 1–3 e x/y numéricos`);
   for (const z of result.caption_zones) if (!z.hidden && !Number.isFinite(z.y)) fail(`${z.id}: zona precisa de y ou hidden:true`);
-  return result;
+  return compileChoreography(result, (anchor) => resolveAnchor({ ...anchor, duration: 0 }, words).start, ids);
 }
 
 export function reframeScript(board) {

@@ -2,10 +2,16 @@
 
 ## Não publicado
 
+- Repositório oficial como origem única de instalação/desenvolvimento; exports tratados como saídas descartáveis. Metadados de GitHub e regras de Git/export alinhadas para excluir temporários de editor, bytecode e cobertura.
+- Direção por beat (atuação, explicação ou motion), estruturas de comparação/processo/detalhe e precedência editorial explícita nas skills técnicas, preservada por `skills:policy` nas atualizações.
+- Eventos do storyboard compartilhados entre animação e SFX, com ataque do asset, limites de timeline, validação de mídia e áudio gerenciado por `compose`; clique pode receber o instante de contato diretamente.
+- Janelas declaradas de leitura útil, relatórios consultivos em `plan/check` e revisão por problema/intervalo, sem notas artificiais ou aprovação automática. Rotas de referência de motion consultáveis por função, sem novo engine/dependências.
+- Estados iniciais explícitos evitam diferenças entre seek direto em zero e rebobinar; traço SVG sem arredondamento para paths normalizados. Regressões de seek/DOM, sincronismo e render exercitadas com mídia sintética.
+
 - Silero ONNX integrado ao `analyze` como extra local; MediaPipe Face em inspeções/janelas de borda e Pose opcional para gestos. Relatórios por origem, cache verificável, avisos em `editorial`/`cut` e retomada compacta, sem seleção ou aprovação automática.
 - `signals setup` instala modelos fixados com SHA-256 e runtime isolado; testes de relógio, integridade, preservação de decisões e integração nativa opcional. Guia SIGNALS e skills orientam quando cada ferramenta acrescenta valor.
 
-- DeepFilterNet3 como primeira opção de limpeza de fala quando necessária, respaldada por preferência de escuta do mantenedor; guia de tratamento moderado, compensação de atraso, integração por faixa separada e revisão A/B, sem incluir gravações ou instalar modelos automaticamente.
+- DeepFilterNet3 como opção inicial de limpeza de fala quando necessária; guia de tratamento moderado, compensação de atraso, integração por faixa separada e revisão A/B por projeto, sem incluir gravações ou instalar modelos automaticamente.
 - Direção geral de acabamento dos cortes: preservar fala e ação úteis, distinguir reset de expressão intencional e classificar pausas/ruídos pelo contexto, com evidências por borda.
 - `frames --cuts` inclui abertura e encerramento e usa índices exatos; `--context` extrai sequências consecutivas e `--boundary` limita a inspeção. `cut` gera roteiro de revisão por borda, sem novo schema ou aprovação automática.
 - Orientação curta no primeiro fluxo de vídeo, com objetivos, referências, exemplos de modelos e um exemplo de pedido; integrada às instruções de Claude Code e Codex.

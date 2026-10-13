@@ -156,6 +156,8 @@ A quebra dos blocos evita terminar em palavra de ligação ("os meus projetos" /
 
 ## Storyboard e composição
 
+Direção, ordem de atenção e tempo útil de leitura podem ser declarados por item sem mudar o fluxo: `direction` e `reads`. Eventos pontuais `events` ligam a animação autoral aos `sound_cues`, que `compose` gera como áudio local. `plan` valida os vínculos e gera `03-plan/reading.json`; `check` confere os assets e escreve `06-review/choreography.json`, vinculado à composição. Campos opcionais, compatíveis com storyboards anteriores. Schema, exemplos e limites: [CHOREOGRAPHY.md](CHOREOGRAPHY.md).
+
 Com `strategy.json`, acrescente `beats` temporizados com os mesmos IDs da estratégia; cards e reframes recebem `beat_id` válido. `plan` exige a correspondência e sobreposição temporal. Beats podem ser só fala/ação sem efeito e não impõem ordem/duração. A [direção de marketing](MARKETING.md) detalha o formato, a revisão estratégica e o aprendizado posterior.
 
 ```json

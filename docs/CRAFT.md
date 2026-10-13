@@ -22,6 +22,8 @@ Movimento: cada movimento precisa de uma função que caiba em uma frase, como l
 
 Transições: examinar entrada, meio, saída e as bordas entre imagens. Evitar flashes da apresentadora entre dois apoios consecutivos, fundos vazios e cortes que escondam o gesto explicado. Uma imagem estável pode ser a melhor escolha. Reenquadrar para uma finalidade concreta, com espaço para mãos e rosto.
 
+Para coreografar gráficos, consultar [CHOREOGRAPHY.md](CHOREOGRAPHY.md): escolher o que conduz cada beat, ordenar a atenção e reservar tempo útil de leitura. Os eventos compartilhados do storyboard ligam ação visual e som; cotas de camadas/movimentos dos exemplos técnicos não substituem o julgamento editorial.
+
 CTA: um convite legível associado à fala e ao perfil correto basta. Uma simulação de botão clicado não corresponde a uma ação real da pessoa assistindo. Usá-la somente quando essa encenação fizer parte do conceito pedido.
 
 Som: conservar o timbre e a respiração úteis. Trilha deve ter autoria/licença registradas e nível medido relativo à voz; decidir ducking/EQ pela competição real. Medidas e ASR não comprovam agrado, naturalidade ou escuta. Relatar a revisão efetivamente feita. Efeito sonoro acompanha um evento que se vê, alinhado pelo ataque do som e não pelo início do arquivo; eventos aparentados podem usar o mesmo som em alturas diferentes. Se o usuário vai colocar a própria trilha, entregar sem trilha e avisar que o nível dos efeitos foi definido sem ela.

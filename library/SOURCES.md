@@ -2,7 +2,7 @@
 
 O ganho vem de encontrar uma referência que resolva uma decisão concreta, inspecioná-la e lembrar o que serviu. Textura, trilha, SFX e variedade não são requisitos para parecer humano. Cada vídeo precisa de uma linguagem coerente com a pessoa, o assunto e a intenção.
 
-O catálogo consultável está em [sources.json](sources.json): 19 fontes selecionadas, com finalidade, categorias, acesso, licença/fonte, data e limites da conferência. As rotas não são exemplos já avaliados. O catálogo é versionável; referências pessoais em `library/references/*.json` e caches em `.cache/` ficam locais.
+O catálogo consultável está em [sources.json](sources.json), com finalidade, categorias, acesso, licença/fonte, data e limites da conferência. As rotas não são exemplos já avaliados. O catálogo é versionável; referências pessoais em `library/references/*.json` e caches em `.cache/` ficam locais.
 
 ## Como o agente consulta sozinho
 
@@ -44,11 +44,15 @@ As consultas online enviam somente a expressão passada pelo agente. Use termos 
 | Textura material | Catálogo local; [ambientCG](https://ambientcg.com/) | Sutileza e coerência com a marca; baixar só o necessário |
 | Tipografia em uso | Fontes já locais; [Fonts In Use](https://fontsinuse.com/), [Fontsource](https://fontsource.org/) | Hierarquia e legibilidade; conferir licença e cobertura dos glifos da família |
 | Movimento ou anotação | Catálogo HyperFrames, [GSAP](https://gsap.com/docs/v3/Eases/), [Rough.js](https://roughjs.com/) | Adaptar função e curva à timeline; seed fixo e render determinístico |
+| Coreografia de explicações | [Guia local](../docs/CHOREOGRAPHY.md), ClaudeAnimationBase e Lemo Opuscar | Escolher ordem de atenção, estados de comparação/processo e tempo útil de leitura; consultar a gramática necessária |
+| Referências de motion gerado | Awesome AI Motion e Awesome Claude 5.5 Videos | Abrir casos pertinentes e testar a técnica incerta; não usar popularidade como benchmark nem catálogos de motion como direção de cortes de atuação |
 | Ícones | [Lucide](https://lucide.dev/) ou família já usada no projeto | Um sistema de traço coerente; não adicionar ícones só para preencher espaço |
 | B-roll externo | [Pexels](https://www.pexels.com/) depois de esgotar o material pertinente do projeto | Contexto, sem apresentar stock como prova de um trabalho real |
 | Mensagens de mercado | Creative Center e Ad Library, se acessíveis | Estudar anúncios como referências; não inferir sucesso orgânico ou vendas por anúncio ativo |
 
 Detalhes de acesso e termos ficam no JSON, consultados pelo comando. Não é preciso abrir todas as fontes em todo projeto. A variedade deve acontecer entre soluções adequadas a cada peça, não em movimentos aleatórios dentro de uma mesma peça.
+
+Para essas rotas de motion, `vid discover "comparacao diagrama" --kind motion --json` ou `"coreografia atencao"` encontra o guia/catálogo pertinente. O comando sugere a rota; use web/browser para consultar JSON/CSV público e abrir os exemplos escolhidos. Não há ingestão em massa nem download automático. O Awesome AI Motion exclui protagonistas reais em seus critérios; para atuação/ritmo de fala, continue pelas referências de edição real e feedback do usuário.
 
 ## Browser, bloqueios e arquivos locais
 

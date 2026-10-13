@@ -41,7 +41,7 @@ test('click keeps its before/during/after state when seeking backwards and forwa
 
 test('draw and punch progress continuously and restore earlier poses on seek', () => {
   const tl = gsap.timeline({ paused: true });
-  const path = { strokeDasharray: 0, strokeDashoffset: 0 };
+  const path = { strokeDasharray: 0, strokeDashoffset: 0, autoRound: false };
   const wrapper = { scale: 1, transformOrigin: '50% 50%' };
   const element = { autoAlpha: 1, y: 0 };
   try {
@@ -54,4 +54,25 @@ test('draw and punch progress continuously and restore earlier poses on seek', (
     tl.seek(0.25); assert.equal(path.strokeDashoffset, 100); assert.equal(wrapper.scale, 1);
     assert.throws(() => motion.draw(tl, path, { id: 'bad', start: 0, duration: 1 }), /length/);
   } finally { tl.kill(); }
+});
+
+test('click contact remains on its shared event when motion duration changes', () => {
+  for (const duration of [0.6, 1.2]) {
+    const tl = gsap.timeline({ paused: true });
+    const targets = { button: { scale: 1 }, cursor: { x: 0, y: 0, autoAlpha: 0 } };
+    try {
+      const result = motion.click(tl, targets, { id: 'contact', hit: 2, duration });
+      assert.equal(result.markers.hit, 2);
+      assert.equal(result.start, 2 - duration / 2);
+      tl.seek(2 - duration / 4);
+      assert.ok(targets.cursor.x > 0);
+      tl.seek(2);
+      assert.equal(targets.cursor.x, 0);
+      assert.equal(targets.button.scale, 1);
+      tl.seek(result.markers.pressed);
+      assert.equal(targets.button.scale, 0.95);
+      assert.throws(() => motion.click(tl, targets, { id: 'bad', hit: 2, start: 0, duration }), /disagree/);
+      assert.throws(() => motion.click(tl, targets, { id: 'bad', hit: 0, duration }), /start/);
+    } finally { tl.kill(); }
+  }
 });
